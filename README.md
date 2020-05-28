@@ -36,8 +36,9 @@ make create_version
 
 ## Навык в Яндекс.Диалоги
 Справка https://yandex.ru/dev/dialogs/alice/doc/smart-home/start-docpage/
-Выберите функцию
 
+Не забудьте укащать функцию
+![Selection_018](https://user-images.githubusercontent.com/3057626/83176044-85456180-a125-11ea-994b-6087a78f42f8.png)
 
 ## Планы на будущее
 1. Хочу в каталог навыков Алисы https://dialogs.yandex.ru/store (ждём  TinkoffCreditSystems/invest-openapi#217)
