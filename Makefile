@@ -1,5 +1,10 @@
 
-all: composer_install init_yc create_function
+SHELL := /bin/bash
+
+include .env
+export $(shell sed 's/=.*//' .env)
+
+all: composer_install init_yc create_function create_dotenv
 
 init_yc:
 	yc init
@@ -12,6 +17,9 @@ create_function:
 composer_install:
 	composer install
 
+create_dotenv:
+	cp -i .env.example .env
+
 create_version:
 	zip oliver.zip index.php composer.json composer.lock src/Application.php
 	yc serverless function version create \
@@ -20,4 +28,5 @@ create_version:
 		--entrypoint index.main \
 		--memory 128m \
 		--execution-timeout 3s \
+		--environment="SESSION_USER_ID=${SESSION_USER_ID}" \
 		--source-path ./oliver.zip

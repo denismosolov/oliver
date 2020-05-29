@@ -49,10 +49,19 @@ class Application
             'response' => [],
             'version' => '1.0',
         ];
-        $response['response'] = [
-            'text' => 'всё хорошо',
-            'end_session' => true,
-        ];
+        $allowed = isset($this->event['session']['user']['user_id']) &&
+            $this->event['session']['user']['user_id'] === $_ENV['SESSION_USER_ID'];
+        if ($allowed) {
+            $response['response'] = [
+                'text' => 'всё хорошо',
+                'end_session' => true,
+            ];
+        } else {
+            $response['response'] = [
+                'text' => 'Это приватный навык. У вас нет доступа. Завершаю сессию.',
+                'end_session' => true,
+            ];
+        }
         return $response;
     }
 }
