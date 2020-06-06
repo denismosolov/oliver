@@ -25,7 +25,7 @@ create_dotenv:
 	cp -i .env.example .env
 
 create_version: test
-	zip oliver.zip index.php composer.json composer.lock src/
+	zip -r oliver.zip src index.php composer.json composer.lock
 	yc config profile activate oliver
 	yc serverless function version create \
 		--function-name=oliver \
