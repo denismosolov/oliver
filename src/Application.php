@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Oliver;
 
+use Oliver\Reply\PrivateSkill;
+
 class Application
 {
     /**
@@ -13,10 +15,9 @@ class Application
     private array $event;
 
     /**
-     * context
-     * @see https://cloud.yandex.ru/docs/functions/lang/php/context
+     * $_ENV
      */
-    private object $context;
+    private array $env = [];
 
     public function __construct()
     {
@@ -31,13 +32,9 @@ class Application
         $this->event = $event;
     }
 
-    /**
-     * @param object $context
-     * @see https://cloud.yandex.ru/docs/functions/lang/php/context
-     */
-    public function setContext(object $context): void
+    public function setEnv(array $env): void
     {
-        $this->context = $context;
+        $this->env = $env;
     }
 
     /**
@@ -45,23 +42,22 @@ class Application
      */
     public function run(): array
     {
-        $response  = [
-            'response' => [],
-            'version' => '1.0',
+        $session_user_id = $this->env['SESSION_USER_ID'] ?? '';
+        $replies = [
+            new PrivateSkill($session_user_id),
         ];
-        $allowed = isset($this->event['session']['user']['user_id']) &&
-            $this->event['session']['user']['user_id'] === $_ENV['SESSION_USER_ID'];
-        if ($allowed) {
-            $response['response'] = [
+        foreach ($replies as $reply) {
+            $response = $reply->handle($this->event);
+            if ($response) {
+                return $response;
+            }
+        }
+        return [
+            'response' => [
                 'text' => 'всё хорошо',
                 'end_session' => true,
-            ];
-        } else {
-            $response['response'] = [
-                'text' => 'Это приватный навык. У вас нет доступа. Завершаю сессию.',
-                'end_session' => true,
-            ];
-        }
-        return $response;
+            ],
+            'version' => '1.0',
+        ];
     }
 }

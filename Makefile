@@ -13,6 +13,7 @@ init_yc:
 	yc init
 
 create_function:
+	yc config profile activate oliver
 	yc serverless function create \
 		--name=oliver \
 		--description="Обработчик навыка Оливер"
@@ -24,7 +25,8 @@ create_dotenv:
 	cp -i .env.example .env
 
 create_version: test
-	zip oliver.zip index.php composer.json composer.lock src/Application.php
+	zip oliver.zip index.php composer.json composer.lock src/
+	yc config profile activate oliver
 	yc serverless function version create \
 		--function-name=oliver \
 		--runtime php74 \

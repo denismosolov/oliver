@@ -10,6 +10,6 @@ function main($event, $context): array
 {
     $app = new Application();
     $app->setEvent($event);
-    $app->setContext($context);
+    $app->setEnv($_ENV);
     return $app->run();
 }
