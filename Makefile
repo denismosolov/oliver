@@ -7,7 +7,11 @@ export $(shell sed 's/=.*//' .env)
 all: composer_install init_yc create_function create_dotenv
 
 test:
+	./vendor/bin/phpcs --standard=PSR12 src/ tests/
 	./vendor/bin/phpunit
+
+fixpsr12:
+	./vendor/bin/phpcbf --standard=PSR12 src/ tests/
 
 init_yc:
 	yc init
