@@ -6,6 +6,9 @@ export $(shell sed 's/=.*//' .env)
 
 all: composer_install init_yc create_function create_dotenv
 
+test:
+	./vendor/bin/phpunit
+
 init_yc:
 	yc init
 
@@ -20,7 +23,7 @@ composer_install:
 create_dotenv:
 	cp -i .env.example .env
 
-create_version:
+create_version: test
 	zip oliver.zip index.php composer.json composer.lock src/Application.php
 	yc serverless function version create \
 		--function-name=oliver \
