@@ -3,5 +3,8 @@
     <testsuite name="general">
       <file>tests/ApplicationTest.php</file>
     </testsuite>
+    <testsuite name="handlers">
+      <file>tests/Reply/BalanceTest.php</file>
+    </testsuite>
   </testsuites>
 </phpunit>

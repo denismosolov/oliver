@@ -6,59 +6,30 @@ namespace Oliver;
 
 use PHPUnit\Framework\TestCase;
 use Oliver\Application;
+use Dotenv\Dotenv;
+use Dotenv\Repository\RepositoryBuilder;
+use jamesRUS52\TinkoffInvest\TIClient;
+use jamesRUS52\TinkoffInvest\TISiteEnum;
 
 final class ApplicationTest extends TestCase
 {
-    private function checkVersion(array $result): void
-    {
-        $this->assertArrayHasKey('version', $result);
-        $this->assertEquals($result['version'], '1.0');
-    }
-
     public function testAccessCheck(): void
     {
-        $app = new Application();
-        $app->setEvent([
-            "meta" => [
-                "locale" => "ru-RU",
-                "timezone" => "Europe/Moscow",
-                "client_id" => "ru.yandex.searchplugin/5.80 (Samsung Galaxy; Android 4.4)",
-                "interfaces" => [
-                    "screen" => [],
-                    "account_linking" => []
-                ]
-            ],
-            "request" => [
-                "command" => "",
-                "original_utterance" => "",
-                "type" => "SimpleUtterance",
-                "markup" => [
-                    "dangerous_context" => true
-                ],
-                "payload" => [],
-            ],
-            "session" => [
-                "message_id" => 0,
-                "session_id" => "2eac4854-fce721f3-b845abba-20d60",
-                "skill_id" => "3ad36498-f5rd-4079-a14b-788652932056",
-                "user_id" => "47C73714B580ED2469056E71081159529FFC676A4E5B059D629A819E857DC2F8",
-                "user" => [
-                    "user_id" => "6C91DA5198D1758C6A9F63A7C5CDDF09359F683B13A18A151FBF4C8B092BB0C2",
-                    "access_token" => "AgAAAAAB4vpbAAApoR1oaCd5yR6eiXSHqOGT8dT"
-                ],
-                "application" => [
-                    "application_id" => "47C73714B580ED2469056E71081159529FFC676A4E5B059D629A819E857DC2F8"
-                ],
-                "new" => true,
-            ],
-            "version" => "1.0"
-        ]);
-        $result = $app->run();
-        $this->checkVersion($result);
-        $this->arrayHasKey('response');
-        $this->arrayHasKey('text');
-        $this->assertEquals($result['response']['text'], 'Это приватный навык. У вас нет доступа. Завершаю сессию.');
+        $repository = RepositoryBuilder::createWithDefaultAdapters()
+            ->allowList(['SESSION_USER_ID', 'TINKOFF_OPEN_API_SANDBOX'])
+            ->make();
+        $dotenv = Dotenv::create($repository, __DIR__ . '/../');
+        $dotenv->load();
 
+        $token = $_ENV['TINKOFF_OPEN_API_SANDBOX'] ?? '';
+        $client = new TIClient($token, TISiteEnum::SANDBOX);
+
+        $allowed_user_id = $_ENV['SESSION_USER_ID'] ?? '';
+        $restricted_user_id = '-';
+
+        $app = new Application();
+        $app->setUserId($restricted_user_id);
+        $app->setClient($client);
         $app->setEvent([
             "meta" => [
                 "locale" => "ru-RU",
@@ -82,23 +53,64 @@ final class ApplicationTest extends TestCase
                 "message_id" => 0,
                 "session_id" => "2eac4854-fce721f3-b845abba-20d60",
                 "skill_id" => "3ad36498-f5rd-4079-a14b-788652932056",
-                "user_id" => "47C73714B580ED2469056E71081159529FFC676A4E5B059D629A819E857DC2F8",
+                "user_id" => $allowed_user_id,
                 "user" => [
-                    "user_id" => "6C91DA5198D1758C6A9F63A7C5CDDF09359F683B13A18A151FBF4C8B092BB0C2",
+                    "user_id" => $allowed_user_id,
                     "access_token" => "AgAAAAAB4vpbAAApoR1oaCd5yR6eiXSHqOGT8dT"
                 ],
                 "application" => [
-                    "application_id" => "47C73714B580ED2469056E71081159529FFC676A4E5B059D629A819E857DC2F8"
+                    "application_id" => $allowed_user_id
                 ],
                 "new" => true,
             ],
             "version" => "1.0"
         ]);
-        $app->setEnv(['SESSION_USER_ID' => '6C91DA5198D1758C6A9F63A7C5CDDF09359F683B13A18A151FBF4C8B092BB0C2']);
         $result = $app->run();
-        $this->checkVersion($result);
-        $this->arrayHasKey('response');
-        $this->arrayHasKey('text');
-        $this->assertEquals($result['response']['text'], 'всё хорошо');
+        $this->assertArrayHasKey('version', $result);
+        $this->assertArrayHasKey('response', $result);
+        $this->assertArrayHasKey('text', $result['response']);
+        $this->assertEquals('Это приватный навык. У вас нет доступа. Завершаю сессию.', $result['response']['text']);
+
+        $app->setUserId($allowed_user_id);
+        $app->setEvent([
+            "meta" => [
+                "locale" => "ru-RU",
+                "timezone" => "Europe/Moscow",
+                "client_id" => "ru.yandex.searchplugin/5.80 (Samsung Galaxy; Android 4.4)",
+                "interfaces" => [
+                    "screen" => [],
+                    "account_linking" => []
+                ]
+            ],
+            "request" => [
+                "command" => "",
+                "original_utterance" => "",
+                "type" => "SimpleUtterance",
+                "markup" => [
+                    "dangerous_context" => true
+                ],
+                "payload" => [],
+            ],
+            "session" => [
+                "message_id" => 0,
+                "session_id" => "2eac4854-fce721f3-b845abba-20d60",
+                "skill_id" => "3ad36498-f5rd-4079-a14b-788652932056",
+                "user_id" => $allowed_user_id,
+                "user" => [
+                    "user_id" => $allowed_user_id,
+                    "access_token" => "AgAAAAAB4vpbAAApoR1oaCd5yR6eiXSHqOGT8dT"
+                ],
+                "application" => [
+                    "application_id" => $allowed_user_id
+                ],
+                "new" => true,
+            ],
+            "version" => "1.0"
+        ]);
+        $result = $app->run();
+        $this->assertArrayHasKey('version', $result);
+        $this->assertArrayHasKey('response', $result);
+        $this->assertArrayHasKey('text', $result['response']);
+        $this->assertEquals('всё хорошо', $result['response']['text']);
     }
 }

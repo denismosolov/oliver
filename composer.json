@@ -1,6 +1,7 @@
 {
     "require-dev": {
         "squizlabs/php_codesniffer": "3.*",
+        "vlucas/phpdotenv": "^5.0",
         "phpunit/phpunit": "^9.1"
     },
     "require": {
