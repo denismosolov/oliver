@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Oliver;
 
 use Oliver\Reply\PrivateSkill;
+use Oliver\Reply\Balance;
+use jamesRUS52\TinkoffInvest\TIClient;
 
 class Application
 {
@@ -18,6 +20,11 @@ class Application
      * $_ENV
      */
     private array $env = [];
+
+    /**
+     * Tinkoff Open API Client
+     */
+    private TIClient $client;
 
     public function __construct()
     {
@@ -38,13 +45,30 @@ class Application
     }
 
     /**
+     * @param TIClient $client
+     * @see https://github.com/jamesRUS52/tinkoff-invest
+     */
+    public function setClient(TIClient $client): void
+    {
+        $this->client = $client;
+    }
+
+    /**
+     * Allowed user id
+     */
+    public function setUserId(string $id): void
+    {
+        $this->session_user_id = $id;
+    }
+
+    /**
      * @see https://yandex.ru/dev/dialogs/alice/doc/protocol-docpage/#response
      */
     public function run(): array
     {
-        $session_user_id = $this->env['SESSION_USER_ID'] ?? '';
         $replies = [
-            new PrivateSkill($session_user_id),
+            new PrivateSkill($this->session_user_id),
+            new Balance($this->client),
         ];
         foreach ($replies as $reply) {
             $response = $reply->handle($this->event);

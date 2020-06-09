@@ -38,4 +38,5 @@ create_version:
 		--memory 128m \
 		--execution-timeout 3s \
 		--environment="SESSION_USER_ID=${SESSION_USER_ID}" \
+		--environment="TINKOFF_OPEN_API_EXCHANGE=${TINKOFF_OPEN_API_EXCHANGE}" \
 		--source-path ./oliver.zip
