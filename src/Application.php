@@ -8,6 +8,7 @@ use Oliver\Reply\PrivateSkill;
 use Oliver\Reply\Stocks;
 use jamesRUS52\TinkoffInvest\TIClient;
 use Oliver\Reply\Introduction;
+use Oliver\Reply\Repeat;
 
 class Application
 {
@@ -71,6 +72,7 @@ class Application
             $replies = [
                 new PrivateSkill($this->session_user_id),
                 new Introduction(),
+                new Repeat(),
                 new Stocks($this->client),
             ];
             foreach ($replies as $reply) {

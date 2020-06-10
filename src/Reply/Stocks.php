@@ -55,6 +55,9 @@ class Stocks implements ReplyInterface
                 }
             }
             return [
+                'session_state' => [
+                    'text' => $text,
+                ],
                 'response' => [
                     'text' => $text,
                     'end_session' => false,
