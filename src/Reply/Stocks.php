@@ -94,7 +94,7 @@ class Stocks implements ReplyInterface
         // @todo: check if null
         $shares = sprintf($balance === 1 ? "%d акция" : "%d акций", $balance); // ngettext doesnot work in Yandex Cloud
         $text = sprintf(
-            "%s, биржа закрыта, у вас %s.",
+            "%s, у вас %s, биржа закрыта.",
             $ticker,
             $shares
         );
