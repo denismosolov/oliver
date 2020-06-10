@@ -44,11 +44,14 @@ class Balance implements ReplyInterface
             $text = '';
             foreach ($stocks as $s) {
                 $tradeStatus = $this->client->getInstrumentInfo($s->getFigi());
-                if ($tradeStatus->getTrade_status() === 'normal_trading') {
+                $status = $tradeStatus->getTrade_status();
+                if ($status === 'normal_trading') {
                     $candle = $this->client->getCandle($s->getFigi(), TICandleIntervalEnum::DAY);
-                    $text .= $this->format($s, $candle);
+                    $text .= $this->normal($s, $candle);
+                } elseif ($status === 'not_available_for_trading') {
+                    $text .= $this->notAvailable($s);
                 } else {
-                    // @todo торги не проводятся
+                    // @todo непонятно
                 }
             }
             return [
@@ -62,7 +65,7 @@ class Balance implements ReplyInterface
         return [];
     }
 
-    private function format(TIPortfolioInstrument $stock, TICandle $candle): string
+    private function normal(TIPortfolioInstrument $stock, TICandle $candle): string
     {
         $balance = (int) $stock->getBalance();
         $ticker = $stock->getTicker();
@@ -81,6 +84,20 @@ class Balance implements ReplyInterface
         if (is_float($average) && $average) {
             $text .= sprintf('средняя цена: %g.', $average);
         }
+        return $text;
+    }
+
+    private function notAvailable(TIPortfolioInstrument $stock): string
+    {
+        $balance = (int) $stock->getBalance();
+        $ticker = $stock->getTicker();
+        // @todo: check if null
+        $shares = sprintf($balance === 1 ? "%d акция" : "%d акций", $balance); // ngettext doesnot work in Yandex Cloud
+        $text = sprintf(
+            "%s, биржа закрыта, у вас %s.",
+            $ticker,
+            $shares
+        );
         return $text;
     }
 }
