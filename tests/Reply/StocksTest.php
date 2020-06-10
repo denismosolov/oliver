@@ -96,7 +96,7 @@ final class StocksTest extends TestCase
         $this->client->sbCurrencyBalance(1500, TICurrencyEnum::USD);
         $this->client->sbPositionBalance($amount, $figi);
 
-        $balance = new Balance($this->client);
+        $balance = new Stocks($this->client);
         $result = $balance->handle($event);
         $this->assertIsArray($result);
         $this->assertArrayHasKey('response', $result);
