@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Oliver;
 
 use Oliver\Reply\PrivateSkill;
-use Oliver\Reply\Balance;
+use Oliver\Reply\Stocks;
 use jamesRUS52\TinkoffInvest\TIClient;
 use Oliver\Reply\Introduction;
 
@@ -71,7 +71,7 @@ class Application
             $replies = [
                 new PrivateSkill($this->session_user_id),
                 new Introduction(),
-                new Balance($this->client),
+                new Stocks($this->client),
             ];
             foreach ($replies as $reply) {
                 $response = $reply->handle($this->event);

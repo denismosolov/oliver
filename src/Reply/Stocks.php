@@ -17,7 +17,7 @@ use jamesRUS52\TinkoffInvest\TIOrderBook;
 use jamesRUS52\TinkoffInvest\TIInstrumentInfo;
 use jamesRUS52\TinkoffInvest\TIPortfolioInstrument;
 
-class Balance implements ReplyInterface
+class Stocks implements ReplyInterface
 {
     /**
      * Tinkoff Invest API Client
@@ -32,7 +32,7 @@ class Balance implements ReplyInterface
     // @todo: try..catch
     public function handle(array $event): array
     {
-        if (isset($event['request']['nlu']['intents']['balance'])) {
+        if (isset($event['request']['nlu']['intents']['my.stocks'])) {
             $port = $this->client->getPortfolio();
             $instruments = $port->getAllinstruments();
             $stocks = array_filter(

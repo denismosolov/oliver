@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Oliver;
 
 use PHPUnit\Framework\TestCase;
-use Oliver\Reply\Balance;
+use Oliver\Reply\Stocks;
 use Dotenv\Dotenv;
 use jamesRUS52\TinkoffInvest\TIClient;
 use jamesRUS52\TinkoffInvest\TIAccount;
@@ -15,7 +15,7 @@ use Dotenv\Repository\RepositoryBuilder;
 use Dotenv\Repository\Adapter\EnvConstAdapter;
 use Dotenv\Repository\Adapter\PutenvAdapter;
 
-final class BalanceTest extends TestCase
+final class StocksTest extends TestCase
 {
     private TIClient $clent;
 
