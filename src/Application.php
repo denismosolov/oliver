@@ -7,6 +7,7 @@ namespace Oliver;
 use Oliver\Reply\PrivateSkill;
 use Oliver\Reply\Balance;
 use jamesRUS52\TinkoffInvest\TIClient;
+use Oliver\Reply\Introduction;
 
 class Application
 {
@@ -68,6 +69,7 @@ class Application
     {
         $replies = [
             new PrivateSkill($this->session_user_id),
+            new Introduction(),
             new Balance($this->client),
         ];
         foreach ($replies as $reply) {
