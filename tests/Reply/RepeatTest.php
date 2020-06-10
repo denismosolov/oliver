@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace Oliver;
 
 use PHPUnit\Framework\TestCase;
-use Oliver\Reply\Introduction;
-use Dotenv\Dotenv;
+use Oliver\Reply\Repeat;
 
-final class IntroductionTest extends TestCase
+final class RepeatTest extends TestCase
 {
 
     public function testIntro(): void
@@ -25,13 +24,24 @@ final class IntroductionTest extends TestCase
                 ]
             ],
             "request" => [
-                "command" => "",
-                "original_utterance" => "",
+                "command" => "повтори",
+                "original_utterance" => "повтори",
                 "type" => "SimpleUtterance",
                 "markup" => [
                     "dangerous_context" => true
                 ],
                 "payload" => [],
+                "nlu" => [
+                    "tokens" => [
+                        "повтори",
+                    ],
+                    "entities" => [],
+                    "intents" => [
+                      "YANDEX.REPEAT" => [
+                        "slots" => [],
+                      ],
+                    ]
+                ],
             ],
             "session" => [
                 "message_id" => 0,
@@ -47,17 +57,22 @@ final class IntroductionTest extends TestCase
                 ],
                 "new" => true,
             ],
+            "state" => [
+                "session" => [
+                    "text" => "текст для проверки",
+                ],
+            ],
             "version" => "1.0"
         ];
 
-        $balance = new Introduction();
-        $result = $balance->handle($event);
+        $repeat = new Repeat();
+        $result = $repeat->handle($event);
         $this->assertIsArray($result);
         $this->assertArrayHasKey('response', $result);
         $this->assertArrayHasKey('version', $result);
         $this->assertArrayHasKey('text', $result['response']);
         $this->assertArrayHasKey('session_state', $result);
         $this->assertArrayHasKey('text', $result['session_state']);
-        $this->assertStringContainsStringIgnoringCase('здравствуйте', $result['response']['text']);
+        $this->assertEquals($result['response']['text'], $result['session_state']['text']);
     }
 }

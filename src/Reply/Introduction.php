@@ -17,6 +17,9 @@ class Introduction implements ReplyInterface
         $text = 'Здравствуйте! Чтобы получить информацию об акциях на брокерском счёте, скажите «мои акции».';
         if ($new && $empty) {
             return [
+                'session_state' => [
+                    'text' => $text,
+                ],
                 'response' => [
                     'text' => $text,
                     'end_session' => false,

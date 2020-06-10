@@ -102,6 +102,8 @@ final class StocksTest extends TestCase
         $this->assertArrayHasKey('response', $result);
         $this->assertArrayHasKey('version', $result);
         $this->assertArrayHasKey('text', $result['response']);
+        $this->assertArrayHasKey('session_state', $result);
+        $this->assertArrayHasKey('text', $result['session_state']);
         $this->assertStringContainsStringIgnoringCase($ticker, $result['response']['text']);
         // $this->assertStringContainsStringIgnoringCase('минимальная цена', $result['response']['text']);
         // $this->assertStringContainsStringIgnoringCase('максимальная цена', $result['response']['text']);
