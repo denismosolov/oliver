@@ -67,17 +67,33 @@ class Application
      */
     public function run(): array
     {
-        $replies = [
-            new PrivateSkill($this->session_user_id),
-            new Introduction(),
-            new Balance($this->client),
-        ];
-        foreach ($replies as $reply) {
-            $response = $reply->handle($this->event);
-            if ($response) {
-                return $response;
+        try {
+            $replies = [
+                new PrivateSkill($this->session_user_id),
+                new Introduction(),
+                new Balance($this->client),
+            ];
+            foreach ($replies as $reply) {
+                $response = $reply->handle($this->event);
+                if ($response) {
+                    return $response;
+                }
             }
+        } catch (\Exception $e) {
+            // @todo: обработка разных искочений, по некоторым не надо завершать сессию
+            // запись в лог
+            print $e->getMessage();
+            print $e->getTraceAsString();
+            // @todo: покрой тестами
+            return [
+                'response' => [
+                    'text' => 'произошла ошибка, я уведомил разработчиков, повторите действие позже.',
+                    'end_session' => true,
+                ],
+                'version' => '1.0',
+            ];
         }
+        // @todo: неизвестная команда, справка?
         return [
             'response' => [
                 'text' => 'всё хорошо',
