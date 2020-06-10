@@ -111,6 +111,6 @@ final class ApplicationTest extends TestCase
         $this->assertArrayHasKey('version', $result);
         $this->assertArrayHasKey('response', $result);
         $this->assertArrayHasKey('text', $result['response']);
-        $this->assertEquals('всё хорошо', $result['response']['text']);
+        $this->assertStringNotContainsStringIgnoringCase('это приватный навык', $result['response']['text']);
     }
 }
