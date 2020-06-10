@@ -68,7 +68,7 @@ final class StocksTest extends TestCase
                     ],
                     'entities' => [],
                     'intents' => [
-                      'balance' => [
+                      'my.stocks' => [
                         'slots' => [],
                       ],
                     ]
