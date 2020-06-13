@@ -8,6 +8,7 @@ use Oliver\Reply\PrivateSkill;
 use Oliver\Reply\Stocks;
 use jamesRUS52\TinkoffInvest\TIClient;
 use Oliver\Reply\Introduction;
+use Oliver\Reply\Orders;
 use Oliver\Reply\Repeat;
 
 class Application
@@ -74,6 +75,7 @@ class Application
                 new Introduction(),
                 new Repeat(),
                 new Stocks($this->client),
+                new Orders($this->client),
             ];
             foreach ($replies as $reply) {
                 $response = $reply->handle($this->event);

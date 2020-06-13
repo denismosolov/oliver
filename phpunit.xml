@@ -6,6 +6,7 @@
     <testsuite name="handlers">
       <file>tests/Reply/IntroductionTest.php</file>
       <file>tests/Reply/RepeatTest.php</file>
+      <file>tests/Reply/OrdersTest.php</file>
       <file>tests/Reply/StocksTest.php</file>
     </testsuite>
   </testsuites>
