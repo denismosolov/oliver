@@ -9,5 +9,8 @@
       <file>tests/Reply/OrdersTest.php</file>
       <file>tests/Reply/StocksTest.php</file>
     </testsuite>
+    <testsuite name="utils">
+      <file>tests/DeclensionTest.php</file>
+    </testsuite>
   </testsuites>
 </phpunit>
