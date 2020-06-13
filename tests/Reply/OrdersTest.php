@@ -51,6 +51,8 @@ final class OrdersTest extends TestCase
         $result = $stocks->handle($event);
         $this->assertArrayHasKey('version', $result);
         $this->assertArrayHasKey('response', $result);
+        $this->assertArrayHasKey('text', $result['response']);
+        $this->assertStringContainsStringIgnoringCase('у вас нет заявок', $result['response']['text']);
     }
 
     public function testSingleOrderBuy(): void
