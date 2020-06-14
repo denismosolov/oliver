@@ -52,6 +52,10 @@ final class OrdersTest extends TestCase
         $this->assertArrayHasKey('version', $result);
         $this->assertArrayHasKey('response', $result);
         $this->assertArrayHasKey('text', $result['response']);
+        $this->assertArrayHasKey('session_state', $result);
+        $this->assertArrayHasKey('text', $result['session_state']);
+        $this->assertArrayHasKey('context', $result['session_state']);
+        $this->assertContains('my_orders', $result['session_state']['context']);
         $this->assertStringContainsStringIgnoringCase('у вас нет заявок', $result['response']['text']);
     }
 
