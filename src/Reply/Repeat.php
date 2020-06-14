@@ -15,9 +15,14 @@ class Repeat implements ReplyInterface
         if (isset($event['request']['nlu']['intents']['YANDEX.REPEAT'])) {
             if (isset($event['state']['session']['text'])) {
                 $text = $event['state']['session']['text'];
+                $context = [];
+                if (isset($event['state']['session']['context'])) {
+                    $context = $event['state']['session']['context'];
+                }
                 return [
                     'session_state' => [
                         'text' => $text,
+                        'context' => $context,
                     ],
                     'response' => [
                         'text' => $text,

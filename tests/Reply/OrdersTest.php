@@ -107,6 +107,9 @@ final class OrdersTest extends TestCase
         $result = $stocks->handle($event);
         $this->assertArrayHasKey('version', $result);
         $this->assertArrayHasKey('response', $result);
+        $this->assertArrayHasKey('session_state', $result);
+        $this->assertArrayHasKey('text', $result['session_state']);
+        $this->assertArrayHasKey('context', $result['session_state']);
         $this->assertArrayHasKey('text', $result['response']);
         $this->assertStringContainsStringIgnoringCase('одна заявка', $result['response']['text']);
         $this->assertStringContainsStringIgnoringCase('четырнадцать долларов', $result['response']['text']);
