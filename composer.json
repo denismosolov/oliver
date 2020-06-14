@@ -1,11 +1,22 @@
 {
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/denismosolov/tinkoff-invest"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/denismosolov/NumToText"
+        }
+    ],
     "require-dev": {
         "squizlabs/php_codesniffer": "3.*",
         "vlucas/phpdotenv": "^5.0",
         "phpunit/phpunit": "^9.1"
     },
     "require": {
-        "james.rus52/tinkoffinvest": "1.1"
+        "james.rus52/tinkoffinvest": "dev-order-type",
+        "ivanovsaleksejs/num-to-text": "dev-master"
     },
     "autoload": {
         "psr-4": {

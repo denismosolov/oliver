@@ -19,6 +19,7 @@ class Introduction implements ReplyInterface
             return [
                 'session_state' => [
                     'text' => $text,
+                    'context' => [],
                 ],
                 'response' => [
                     'text' => $text,

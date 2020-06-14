@@ -4,20 +4,69 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c2ad92239e28ecdf99d4156e6090d081",
+    "content-hash": "d1666da72c87a998b905a5e10cc921f5",
     "packages": [
         {
-            "name": "james.rus52/tinkoffinvest",
-            "version": "1.1",
+            "name": "ivanovsaleksejs/num-to-text",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/jamesRUS52/tinkoff-invest.git",
-                "reference": "1d25d8e73c78d620490ad81534708bb323d51870"
+                "url": "https://github.com/denismosolov/NumToText.git",
+                "reference": "477b386e60c03aab096f9dc42b1489b5139cf17a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jamesRUS52/tinkoff-invest/zipball/1d25d8e73c78d620490ad81534708bb323d51870",
-                "reference": "1d25d8e73c78d620490ad81534708bb323d51870",
+                "url": "https://api.github.com/repos/denismosolov/NumToText/zipball/477b386e60c03aab096f9dc42b1489b5139cf17a",
+                "reference": "477b386e60c03aab096f9dc42b1489b5139cf17a",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.0",
+                "squizlabs/php_codesniffer": "3.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ivanovsaleksejs\\NumToText\\": "src"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Aleksejs Ivanovs",
+                    "email": "ivanovs.aleksejs@gmail.com"
+                }
+            ],
+            "description": "Converts numbers to text representation in various languges.",
+            "keywords": [
+                "english",
+                "latvian",
+                "nlp",
+                "php",
+                "russian"
+            ],
+            "support": {
+                "source": "https://github.com/denismosolov/NumToText/tree/master"
+            },
+            "time": "2020-06-13T20:56:48+00:00"
+        },
+        {
+            "name": "james.rus52/tinkoffinvest",
+            "version": "dev-order-type",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/denismosolov/tinkoff-invest.git",
+                "reference": "3af41f5b66f20a1027e77066ec9a3b6b05866306"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/denismosolov/tinkoff-invest/zipball/3af41f5b66f20a1027e77066ec9a3b6b05866306",
+                "reference": "3af41f5b66f20a1027e77066ec9a3b6b05866306",
                 "shasum": ""
             },
             "require": {
@@ -35,7 +84,11 @@
                     "jamesRUS52\\TinkoffInvest\\": "src"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "jamesRUS52\\TinkoffInvest\\Tests\\": "tests/"
+                }
+            },
             "license": [
                 "MIT"
             ],
@@ -54,7 +107,10 @@
                 "rest",
                 "tinkoff"
             ],
-            "time": "2020-04-27T14:25:58+00:00"
+            "support": {
+                "source": "https://github.com/denismosolov/tinkoff-invest/tree/order-type"
+            },
+            "time": "2020-06-12T14:41:02+00:00"
         },
         {
             "name": "james.rus52/websocket",
@@ -2219,7 +2275,10 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "james.rus52/tinkoffinvest": 20,
+        "ivanovsaleksejs/num-to-text": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

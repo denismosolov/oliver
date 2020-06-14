@@ -60,6 +60,9 @@ final class RepeatTest extends TestCase
             "state" => [
                 "session" => [
                     "text" => "текст для проверки",
+                    "context" => [
+                        "some_context",
+                    ]
                 ],
             ],
             "version" => "1.0"
@@ -73,6 +76,8 @@ final class RepeatTest extends TestCase
         $this->assertArrayHasKey('text', $result['response']);
         $this->assertArrayHasKey('session_state', $result);
         $this->assertArrayHasKey('text', $result['session_state']);
+        $this->assertArrayHasKey('context', $result['session_state']);
+        $this->assertContains('some_context', $result['session_state']['context']);
         $this->assertEquals($result['response']['text'], $result['session_state']['text']);
     }
 }
