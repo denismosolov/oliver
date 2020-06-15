@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d1666da72c87a998b905a5e10cc921f5",
+    "content-hash": "46867ee99ea1f74864aebb07b2be32dd",
     "packages": [
         {
             "name": "ivanovsaleksejs/num-to-text",
@@ -57,16 +57,16 @@
         },
         {
             "name": "james.rus52/tinkoffinvest",
-            "version": "dev-order-type",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/denismosolov/tinkoff-invest.git",
-                "reference": "3af41f5b66f20a1027e77066ec9a3b6b05866306"
+                "reference": "18a214fae47991a70c3a5d1f18c59f6c5d5e9724"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/denismosolov/tinkoff-invest/zipball/3af41f5b66f20a1027e77066ec9a3b6b05866306",
-                "reference": "3af41f5b66f20a1027e77066ec9a3b6b05866306",
+                "url": "https://api.github.com/repos/denismosolov/tinkoff-invest/zipball/18a214fae47991a70c3a5d1f18c59f6c5d5e9724",
+                "reference": "18a214fae47991a70c3a5d1f18c59f6c5d5e9724",
                 "shasum": ""
             },
             "require": {
@@ -108,9 +108,9 @@
                 "tinkoff"
             ],
             "support": {
-                "source": "https://github.com/denismosolov/tinkoff-invest/tree/order-type"
+                "source": "https://github.com/denismosolov/tinkoff-invest/tree/master"
             },
-            "time": "2020-06-12T14:41:02+00:00"
+            "time": "2020-06-15T09:37:41+00:00"
         },
         {
             "name": "james.rus52/websocket",
@@ -1052,16 +1052,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "9.2.2",
+            "version": "9.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "8fd0d8f80029682da89516a554f4d5f5a030345c"
+                "reference": "c1b1d62095ef78427f112a7a1c1502d4607e3c00"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/8fd0d8f80029682da89516a554f4d5f5a030345c",
-                "reference": "8fd0d8f80029682da89516a554f4d5f5a030345c",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c1b1d62095ef78427f112a7a1c1502d4607e3c00",
+                "reference": "c1b1d62095ef78427f112a7a1c1502d4607e3c00",
                 "shasum": ""
             },
             "require": {
@@ -1146,7 +1146,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-06-07T14:14:21+00:00"
+            "time": "2020-06-15T10:51:34+00:00"
         },
         {
             "name": "sebastian/code-unit",

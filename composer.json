@@ -15,7 +15,7 @@
         "phpunit/phpunit": "^9.1"
     },
     "require": {
-        "james.rus52/tinkoffinvest": "dev-order-type",
+        "james.rus52/tinkoffinvest": "dev-master",
         "ivanovsaleksejs/num-to-text": "dev-master"
     },
     "autoload": {
