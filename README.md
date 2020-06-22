@@ -36,10 +36,6 @@ make test
 Для тестов используется песочница Tinkoff Invest Open API, если часто запускать тесты, то можно упереться в [ограничения песочницы](https://tinkoffcreditsystems.github.io/invest-openapi/rest/).
 
 ## Деплой в Яндекс.Облако
-Перед деплоем загляните в файл `.env` в корневой директории проекта и замените идентификатор пользователя Яндекса в `SESSION_USER_ID` на свой. Этот идентификатор используется для аутентификации в навыке, чтобы никто кроме вас не смог запустить ваш навык, зная активационное имя. `SESSION_USER_ID` передаётся в переменную окружения функции в Яндекс.Облаке при запуске `make create_version`. Я не уверен, что это безопасно, поэтому используйте на свой страх и риск.
-
-Для справки посмотрите session.user.user_id в https://yandex.ru/dev/dialogs/alice/doc/protocol-docpage/#request.
-
 Выпустите [токены OpenAPI](https://tinkoffcreditsystems.github.io/invest-openapi/auth/) для биржи и Sandbox , запишите их в `TINKOFF_OPEN_API_SANDBOX` и `TINKOFF_OPEN_API_EXCHANGE` в файле `.env`.
 
 А вот и команда для деплоя кода в Яндекс.Облако.
@@ -51,6 +47,8 @@ make create_version
 
 ## Навык в Яндекс.Диалоги
 Справка https://yandex.ru/dev/dialogs/alice/doc/smart-home/start-docpage/
+
+В поле «Тип доступа» выберите «Приватный».
 
 Не забудьте указать функцию
 ![Selection_018](https://user-images.githubusercontent.com/3057626/83176044-85456180-a125-11ea-994b-6087a78f42f8.png)

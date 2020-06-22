@@ -11,7 +11,6 @@ use jamesRUS52\TinkoffInvest\TIException;
 
 function main($event, $context): array
 {
-    $user_id = $_ENV['SESSION_USER_ID'] ?? '';
     $token = $_ENV['TINKOFF_OPEN_API_EXCHANGE'] ?? '';
     try {
         // @todo: на самом деле это лучше запихнуть в Application
@@ -34,6 +33,5 @@ function main($event, $context): array
     $app = new Application();
     $app->setClient($client);
     $app->setEvent($event);
-    $app->setUserId($user_id);
     return $app->run();
 }
