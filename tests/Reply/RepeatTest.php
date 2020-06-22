@@ -12,7 +12,6 @@ final class RepeatTest extends TestCase
 
     public function testIntro(): void
     {
-        $user_id = $_ENV['SESSION_USER_ID'] ?? '';
         $event = [
             "meta" => [
                 "locale" => "ru-RU",
@@ -44,17 +43,6 @@ final class RepeatTest extends TestCase
                 ],
             ],
             "session" => [
-                "message_id" => 0,
-                "session_id" => "2eac4854-fce721f3-b845abba-20d60",
-                "skill_id" => "3ad36498-f5rd-4079-a14b-788652932056",
-                "user_id" => $user_id,
-                "user" => [
-                    "user_id" => $user_id,
-                    "access_token" => "AgAAAAAB4vpbAAApoR1oaCd5yR6eiXSHqOGT8dT"
-                ],
-                "application" => [
-                    "application_id" => $user_id
-                ],
                 "new" => true,
             ],
             "state" => [

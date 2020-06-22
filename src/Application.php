@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Oliver;
 
-use Oliver\Reply\PrivateSkill;
 use Oliver\Reply\Stocks;
 use jamesRUS52\TinkoffInvest\TIClient;
 use Oliver\Reply\Introduction;
@@ -57,21 +56,12 @@ class Application
     }
 
     /**
-     * Allowed user id
-     */
-    public function setUserId(string $id): void
-    {
-        $this->session_user_id = $id;
-    }
-
-    /**
      * @see https://yandex.ru/dev/dialogs/alice/doc/protocol-docpage/#response
      */
     public function run(): array
     {
         try {
             $replies = [
-                new PrivateSkill($this->session_user_id),
                 new Introduction(),
                 new Repeat(),
                 new Stocks($this->client),
