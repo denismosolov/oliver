@@ -6,7 +6,6 @@ namespace Oliver;
 
 use PHPUnit\Framework\TestCase;
 use Oliver\Reply\Introduction;
-use Dotenv\Dotenv;
 
 final class IntroductionTest extends TestCase
 {

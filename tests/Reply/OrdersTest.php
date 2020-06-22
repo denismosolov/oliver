@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Oliver;
 
 use PHPUnit\Framework\TestCase;
-use Dotenv\Dotenv;
 use jamesRUS52\TinkoffInvest\TIClient;
 use jamesRUS52\TinkoffInvest\TIOperationEnum;
 use jamesRUS52\TinkoffInvest\TIAccount;
