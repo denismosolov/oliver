@@ -1,0 +1,31 @@
+# чтобы отличать лоты от акций
+entity OperationUnit:
+    values:
+        lot:
+            %lemma
+            лот
+        share:
+            %lemma
+            акция
+
+# чтобы различать покупку и продажу
+entity OperationType:
+    values:
+        buy:
+            %lemma
+            купи
+        sell:
+            %lemma
+            продай
+
+# чтобы различать тикеры
+entity FIGI:
+    values:
+        BBG005DXJS36:
+            тиньков(банк)?
+            тинькоф(банк)?
+            тинькофф(банк)?
+            ти си эс (груп)?
+        BBG004S681B4:
+            нлмк
+            эн эл эм ка
