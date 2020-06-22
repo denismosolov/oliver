@@ -6,41 +6,14 @@ namespace Oliver;
 
 use PHPUnit\Framework\TestCase;
 use Oliver\Reply\Stocks;
-use Dotenv\Dotenv;
 use jamesRUS52\TinkoffInvest\TIClient;
-use jamesRUS52\TinkoffInvest\TIAccount;
-use jamesRUS52\TinkoffInvest\TISiteEnum;
-use jamesRUS52\TinkoffInvest\TICurrencyEnum;
-use Dotenv\Repository\RepositoryBuilder;
-use Dotenv\Repository\Adapter\EnvConstAdapter;
-use Dotenv\Repository\Adapter\PutenvAdapter;
+use jamesRUS52\TinkoffInvest\TICandle;
+use jamesRUS52\TinkoffInvest\TIInstrumentInfo;
+use jamesRUS52\TinkoffInvest\TIPortfolio;
+use jamesRUS52\TinkoffInvest\TIPortfolioInstrument;
 
 final class StocksTest extends TestCase
 {
-    private TIClient $clent;
-
-    private TIAccount $account;
-
-    public function setUp(): void
-    {
-        $repository = RepositoryBuilder::createWithNoAdapters()
-            ->addAdapter(EnvConstAdapter::class)
-            ->addWriter(PutenvAdapter::class)
-            ->allowList(['SESSION_USER_ID', 'TINKOFF_OPEN_API_SANDBOX'])
-            ->make();
-        $dotenv = Dotenv::create($repository, __DIR__ . '/../../');
-        $dotenv->load();
-
-        $token = $_ENV['TINKOFF_OPEN_API_SANDBOX'] ?? '';
-        $this->client = new TIClient($token, TISiteEnum::SANDBOX);
-        $this->account = $this->client->sbRegister();
-    }
-
-    public function tearDown(): void
-    {
-        $this->client->sbRemove();
-    }
-
     public function testSharesTCS(): void
     {
         $user_id = $_ENV['SESSION_USER_ID'] ?? '';
@@ -93,11 +66,39 @@ final class StocksTest extends TestCase
         $amount = 300;
         $figi = 'BBG005DXJS36';
         $ticker = 'TCS';
-        $this->client->sbCurrencyBalance(1500, TICurrencyEnum::USD);
-        $this->client->sbPositionBalance($amount, $figi);
 
-        $balance = new Stocks($this->client);
-        $result = $balance->handle($event);
+        $instrument_info = $this->createStub(TIInstrumentInfo::class);
+        $instrument_info->method('getTrade_status')
+                        ->willReturn('normal_trading');
+        $portfolio = $this->createStub(TIPortfolio::class);
+        $instrument = $this->createStub(TIPortfolioInstrument::class);
+        $instrument->method('getInstrumentType')
+                    ->willReturn('stock');
+        $instrument->method('getFigi')
+                    ->willReturn($figi);
+        $instrument->method('getBalance')
+                    ->willReturn($amount);
+        $instrument->method('getTicker')
+                    ->willReturn($ticker);
+        $portfolio->method('getAllinstruments')
+                    ->willReturn([
+                        $instrument,
+                    ]);
+        $client = $this->createStub(TIClient::class);
+        $client->method('getPortfolio')
+                ->willReturn($portfolio);
+        $client->method('getInstrumentInfo')
+                ->willReturn($instrument_info);
+        $candle = $this->createStub(TICandle::class);
+        // $candle->method('getLow')
+        //         ->willReturn(18.01);
+        // $candle->method('getHigh')
+        //         ->willReturn(19.8);
+        $client->method('getCandle')
+                ->willReturn($candle);
+
+        $stocks = new Stocks($client);
+        $result = $stocks->handle($event);
         $this->assertIsArray($result);
         $this->assertArrayHasKey('response', $result);
         $this->assertArrayHasKey('version', $result);
@@ -106,8 +107,10 @@ final class StocksTest extends TestCase
         $this->assertArrayHasKey('text', $result['session_state']);
         $this->assertArrayHasKey('context', $result['session_state']);
         $this->assertStringContainsStringIgnoringCase($ticker, $result['response']['text']);
-        // $this->assertStringContainsStringIgnoringCase('минимальная цена', $result['response']['text']);
-        // $this->assertStringContainsStringIgnoringCase('максимальная цена', $result['response']['text']);
+        // @todo: check price and currency
+        $this->assertStringContainsStringIgnoringCase('минимальная цена', $result['response']['text']);
+        $this->assertStringContainsStringIgnoringCase('максимальная цена', $result['response']['text']);
+        // @todo: fix tinkoff invest php sdk first
         // $this->assertStringContainsStringIgnoringCase('средняя цена', $result['response']['text']);
         $this->assertStringContainsStringIgnoringCase("у вас $amount акций", $result['response']['text']);
     }
