@@ -94,7 +94,7 @@ class MarketOrderBuyStock implements ReplyInterface
                     if (is_array($parts)) {
                         $text .= end($parts);
                     } else {
-                        // @todo: ????
+                        $text .= 'неизвестная ошибка,';
                     }
                 }
                 // @todo: Specified security is not found [...]
