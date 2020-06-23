@@ -76,6 +76,10 @@ class MarketOrderBuyStock implements ReplyInterface
     {
         switch ($order->getStatus()) {
             // [ New, PartiallyFill, Fill, Cancelled, Replaced, PendingCancel, Rejected, PendingReplace, PendingNew ]
+            case 'Fill':
+                // @todo: добавь больше деталей
+                // @todo: тест кейс
+                return 'заявка исполнена,'; // @fixme: $order->getPrice() всегда возвращает null
             case 'New':
                 return 'заявка на покупку создана,';
             case 'PendingNew':
