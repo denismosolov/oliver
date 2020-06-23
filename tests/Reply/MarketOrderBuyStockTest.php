@@ -71,7 +71,7 @@ final class MarketOrderBuyStockTest extends TestCase
 
         $order = $this->createStub(TIOrder::class);
         $order->method('getStatus')
-              ->willReturn('New');
+              ->willReturn('Fill');
         $client = $this->createMock(TIClient::class);
         $client->expects($this->once())
                 ->method('sendOrder')
@@ -86,8 +86,7 @@ final class MarketOrderBuyStockTest extends TestCase
         $result = $newOrder->handle($event);
         $this->assertStructure($result);
         $this->assertNotContains('market_order_buy_stock', $result['session_state']['context']);
-        $this->assertStringContainsStringIgnoringCase('заявка на покупку', $result['response']['text']);
-        $this->assertStringContainsStringIgnoringCase('создана', $result['response']['text']);
+        $this->assertStringContainsStringIgnoringCase('заявка исполнена', $result['response']['text']);
         // @todo: add lot, ticker
         // @todo: а что если заявка сразу исполнилась? какой будет статус?
 
