@@ -5,6 +5,7 @@
       <file>tests/Reply/RepeatTest.php</file>
       <file>tests/Reply/OrdersTest.php</file>
       <file>tests/Reply/StocksTest.php</file>
+      <file>tests/Reply/MarketOrderBuyStockTest.php</file>
     </testsuite>
     <testsuite name="utils">
       <file>tests/DeclensionTest.php</file>

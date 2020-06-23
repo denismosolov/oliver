@@ -1,0 +1,32 @@
+# Заявка на покупку или продажу по рыночной цене
+# market.order
+
+slots:
+    operation:
+        source: $Operation
+        type: OperationType
+    figi:
+        source: $Stock
+        type: FIGI
+    amount:
+        source: $Amount
+        type: YANDEX.NUMBER
+    unit:
+        source: $Unit
+        type: OperationUnit
+root:
+    $Operation [$Amount $Unit $Stock $Market?]
+$Operation:
+    $OperationType
+$Amount:
+    $YANDEX.NUMBER
+$Unit:
+    $OperationUnit
+$Stock:
+    $FIGI
+$Market:
+    %lemma
+    по рынку | по рыночной цене
+filler:
+    %lemma
+    пожалуйста | алиса | оливер
