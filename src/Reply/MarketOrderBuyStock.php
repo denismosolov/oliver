@@ -112,12 +112,13 @@ class MarketOrderBuyStock implements ReplyInterface
     private function checkException(TIException $te): string
     {
         print $te->getMessage() . "\n";
-        $text = '';
+        $text = 'заявка на покупку отклонена системой,';
         // Недостаточно активов для сделки [OrderNotAvailable]
         if (preg_match('/\[OrderNotAvailable\]/', $te->getMessage())) {
             $text = preg_replace('/\[OrderNotAvailable\]/', '', $te->getMessage());
             if (is_null($text)) {
                 // @todo: ????
+                $text = 'неизвестная ошибка,';
             }
         } elseif (preg_match('/\[VALIDATION_ERROR\]/', $te->getMessage())) {
             if (preg_match('/has invalid scale/', $te->getMessage())) {
