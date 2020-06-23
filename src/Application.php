@@ -91,7 +91,7 @@ class Application
         return [
             'response' => [
                 'text' => 'всё хорошо',
-                'end_session' => true,
+                'end_session' => false,
             ],
             'version' => '1.0',
         ];
