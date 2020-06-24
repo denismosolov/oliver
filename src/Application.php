@@ -6,6 +6,7 @@ namespace Oliver;
 
 use Oliver\Reply\Stocks;
 use jamesRUS52\TinkoffInvest\TIClient;
+use Oliver\Reply\ICanDo;
 use Oliver\Reply\Introduction;
 use Oliver\Reply\Orders;
 use Oliver\Reply\Repeat;
@@ -64,6 +65,7 @@ class Application
     {
         try {
             $replies = [
+                new ICanDo(),
                 new Introduction(),
                 new Repeat(),
                 new Stocks($this->client),

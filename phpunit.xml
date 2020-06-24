@@ -7,6 +7,7 @@
       <file>tests/Reply/StocksTest.php</file>
       <file>tests/Reply/MarketOrderBuyStockTest.php</file>
       <file>tests/Reply/MarketOrderSellStockTest.php</file>
+      <file>tests/Reply/ICanDoTest.php</file>
     </testsuite>
     <testsuite name="utils">
       <file>tests/DeclensionTest.php</file>
