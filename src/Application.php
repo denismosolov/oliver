@@ -10,6 +10,7 @@ use Oliver\Reply\Introduction;
 use Oliver\Reply\Orders;
 use Oliver\Reply\Repeat;
 use Oliver\Reply\MarketOrderBuyStock;
+use Oliver\Reply\MarketOrderSellStock;
 
 class Application
 {
@@ -68,6 +69,7 @@ class Application
                 new Stocks($this->client),
                 new Orders($this->client),
                 new MarketOrderBuyStock($this->client),
+                new MarketOrderSellStock($this->client),
             ];
             foreach ($replies as $reply) {
                 $response = $reply->handle($this->event);
