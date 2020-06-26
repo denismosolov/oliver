@@ -8,6 +8,7 @@ use Oliver\Reply\Stocks;
 use jamesRUS52\TinkoffInvest\TIClient;
 use Oliver\Reply\ICanDo;
 use Oliver\Reply\Introduction;
+use Oliver\Reply\LimitOrderBuyStock;
 use Oliver\Reply\Orders;
 use Oliver\Reply\Repeat;
 use Oliver\Reply\MarketOrderBuyStock;
@@ -72,6 +73,7 @@ class Application
                 new Orders($this->client),
                 new MarketOrderBuyStock($this->client),
                 new MarketOrderSellStock($this->client),
+                new LimitOrderBuyStock($this->client),
             ];
             foreach ($replies as $reply) {
                 $response = $reply->handle($this->event);

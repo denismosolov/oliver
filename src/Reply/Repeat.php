@@ -19,10 +19,15 @@ class Repeat implements ReplyInterface
                 if (isset($event['state']['session']['context'])) {
                     $context = $event['state']['session']['context'];
                 }
+                $details = [];
+                if (isset($event['state']['session']['order_details'])) {
+                    $details = $event['state']['session']['order_details'];
+                }
                 return [
                     'session_state' => [
                         'text' => $text,
                         'context' => $context,
+                        'order_details' => $details,
                     ],
                     'response' => [
                         'text' => $text,

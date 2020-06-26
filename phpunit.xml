@@ -3,6 +3,7 @@
     <testsuite name="handlers">
       <file>tests/Reply/IntroductionTest.php</file>
       <file>tests/Reply/RepeatTest.php</file>
+      <file>tests/Reply/LimitOrderBuyStockTest.php</file>
       <file>tests/Reply/OrdersTest.php</file>
       <file>tests/Reply/StocksTest.php</file>
       <file>tests/Reply/MarketOrderBuyStockTest.php</file>
@@ -11,6 +12,7 @@
     </testsuite>
     <testsuite name="utils">
       <file>tests/DeclensionTest.php</file>
+      <file>tests/PriceTest.php</file>
     </testsuite>
   </testsuites>
 </phpunit>
