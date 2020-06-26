@@ -157,14 +157,27 @@ class MarketOrderBuyStock implements ReplyInterface
             return $this->replyEmptyFigi();
         }
         $instrument = $this->client->getInstrumentByFigi($figi);
-        if ($unit !== 'lot') {
+        // если 1 лот = 1 акция, то всё хорошо, лот и акция взамозаменяемы
+        // но если в 1 лоте 10 акций, а пользователь хочет только 5, то отказываем
+        if (! in_array($unit, ['lot', 'share'])) {
+            // @todo: add test case
+            return $this->replyLotAllowed($instrument);
+        }
+        if ($unit === 'share' && $instrument->getLot() !== 1) {
             // @todo: add test case
             return $this->replyLotAllowed($instrument);
         }
 
         $text = sprintf('заявка на покупку %s по рыночной цене,', $instrument->getName());
         $text .= sprintf('тикер: %s,', $instrument->getTicker());
-        $text .= sprintf('количество лотов: %d,', $amount);
+        if ($unit === 'share') {
+            $text .= sprintf('количество акций: %d,', $amount);
+        } elseif ($unit === 'lot') {
+            $text .= sprintf('количество лотов: %d,', $amount);
+        } else {
+            // @todo: test case???
+            throw new \Exception('Неизвестная единица измерения: ' . $unit);
+        }
         $text .= 'для подтверждения скажите подтверждаю, для отмены скажите нет.';
         return [
             'session_state' => [

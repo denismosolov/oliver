@@ -13,7 +13,8 @@ use Oliver\Reply\MarketOrderBuyStock;
 
 final class MarketOrderBuyStockTest extends TestCase
 {
-    private const FIGI = 'BBG004S681B4';
+    private const FIGI_NLMK = 'BBG004S681B4';
+    private const FIGI_YANDEX = 'BBG006L8G4H1';
 
     private function assertStructure(array $result): void
     {
@@ -57,7 +58,7 @@ final class MarketOrderBuyStockTest extends TestCase
                         'market_order_buy_stock',
                     ],
                     'order_details' => [
-                        'figi' => self::FIGI,
+                        'figi' => self::FIGI_NLMK,
                         'amount' => 10,
                         'unit' => 'lot',
                         'ticker' => 'NLMK',
@@ -76,7 +77,7 @@ final class MarketOrderBuyStockTest extends TestCase
         $client->expects($this->once())
                 ->method('sendOrder')
                 ->with(
-                    $this->equalTo(self::FIGI),
+                    $this->equalTo(self::FIGI_NLMK),
                     $this->equalTo(10),
                     $this->equalTo(TIOperationEnum::BUY),
                     $this->equalTo(null) // I wonder if it works?
@@ -93,7 +94,7 @@ final class MarketOrderBuyStockTest extends TestCase
        // @todo: handler errors
     }
 
-    public function testAskConfirmation(): void
+    public function testAskConfirmationLot(): void
     {
         $event = [
             'session' => [
@@ -144,7 +145,7 @@ final class MarketOrderBuyStockTest extends TestCase
                                         'start' => 3,
                                         'end' => 4
                                     ],
-                                    'value' => self::FIGI
+                                    'value' => self::FIGI_NLMK
                                 ],
                                 'operation' => [
                                     'type' => 'OperationType',
@@ -195,6 +196,110 @@ final class MarketOrderBuyStockTest extends TestCase
         $this->assertStringContainsStringIgnoringCase('для отмены', $result['response']['text']);
     }
 
+    public function testAskConfirmationShare(): void
+    {
+        $event = [
+            'session' => [
+                'new' => false
+            ],
+            'request' => [
+                'command' => 'купи 1 акцию яндекс',
+                'original_utterance' => 'купи 1 акцию яндекс',
+                'nlu' => [
+                    'tokens' => [
+                        'купи',
+                        '10',
+                        'акция',
+                        'яндекс'
+                    ],
+                    'entities' => [
+                        [
+                            'type' => 'YANDEX.NUMBER',
+                            'tokens' => [
+                                'start' => 1,
+                                'end' => 2
+                            ],
+                            'value' => 1
+                        ]
+                    ],
+                    'intents' => [
+                        'market.order' => [
+                            'slots' => [
+                                'amount' => [
+                                    'type' => 'YANDEX.NUMBER',
+                                    'tokens' => [
+                                        'start' => 1,
+                                        'end' => 2
+                                    ],
+                                    'value' => 1
+                                ],
+                                'unit' => [
+                                    'type' => 'OperationUnit',
+                                    'tokens' => [
+                                        'start' => 2,
+                                        'end' => 3
+                                    ],
+                                    'value' => 'share'
+                                ],
+                                'figi' => [
+                                    'type' => 'FIGI',
+                                    'tokens' => [
+                                        'start' => 3,
+                                        'end' => 4
+                                    ],
+                                    'value' => self::FIGI_YANDEX
+                                ],
+                                'operation' => [
+                                    'type' => 'OperationType',
+                                    'tokens' => [
+                                        'start' => 0,
+                                        'end' => 1
+                                    ],
+                                    'value' => 'buy'
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                'markup' => [
+                    'dangerous_context' => false
+                ],
+                'type' => 'SimpleUtterance'
+            ],
+            'state' => [
+                'session' => [
+                    'text' => '',
+                    'context' => []
+                ],
+                'user' => []
+            ],
+            'version' => '1.0'
+        ];
+
+        $instrument = $this->createStub(TIInstrument::class);
+        $instrument->method('getName')
+                    ->willReturn('Яндекс');
+        $instrument->method('getTicker')
+                    ->willReturn('YNDX');
+        $instrument->method('getLot')
+                    ->willReturn(1);
+        $client = $this->createMock(TIClient::class);
+        $client->expects($this->never())
+                ->method('sendOrder');
+        $client->method('getInstrumentByFigi')
+                ->willReturn($instrument);
+        $newOrder = new MarketOrderBuyStock($client);
+        $result = $newOrder->handle($event);
+        $this->assertStructure($result);
+        $this->assertContains('market_order_buy_stock', $result['session_state']['context']);
+        $this->assertStringContainsStringIgnoringCase('количество акций', $result['response']['text']);
+        $this->assertStringContainsStringIgnoringCase('по рыночной цене', $result['response']['text']);
+        $this->assertStringContainsStringIgnoringCase('тикер', $result['response']['text']);
+        $this->assertStringContainsStringIgnoringCase('YNDX', $result['response']['text']);
+        $this->assertStringContainsStringIgnoringCase('для подтверждения', $result['response']['text']);
+        $this->assertStringContainsStringIgnoringCase('для отмены', $result['response']['text']);
+    }
+
     public function testHint(): void
     {
         $event = [
@@ -227,7 +332,7 @@ final class MarketOrderBuyStockTest extends TestCase
                         'market_order_buy_stock',
                     ],
                     'order_details' => [
-                        'figi' => self::FIGI,
+                        'figi' => self::FIGI_NLMK,
                         'amount' => 10,
                         'unit' => 'lot',
                         'ticker' => 'NLMK',
@@ -277,7 +382,7 @@ final class MarketOrderBuyStockTest extends TestCase
                         'market_order_buy_stock',
                     ],
                     'order_details' => [
-                        'figi' => self::FIGI,
+                        'figi' => self::FIGI_NLMK,
                         'amount' => 10,
                         'unit' => 'lot',
                         'ticker' => 'NLMK',
