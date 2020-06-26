@@ -124,6 +124,11 @@ class MarketOrderBuyStock implements ReplyInterface
                 // @todo: ????
                 $text = 'неизвестная ошибка,';
             }
+            if (preg_match('/Недостаточно активов для сделки/i', $text)) {
+                // @todo: test case
+                $text = 'недостаточно активов для сделки, ';
+                $text .= 'пополните счёт и попробуйте снова, ';
+            }
         } elseif (preg_match('/\[VALIDATION_ERROR\]/', $te->getMessage())) {
             if (preg_match('/has invalid scale/', $te->getMessage())) {
                 $text .= 'недопустимый шаг цены, узнайте минимальный шаг цены для этого инструмента на бирже,';
