@@ -14,7 +14,8 @@ class Introduction implements ReplyInterface
     {
         $new = isset($event['session']['new']);
         $empty = isset($event['request']['command']) && $event['request']['command'] === '';
-        $text = 'Здравствуйте! Чтобы получить информацию об акциях на брокерском счёте, скажите «мои акции».';
+        $text = 'здравствуйте, я голосовой помощник вашего брокера, могу купить ценные бумаги на бирже, ';
+        $text .= 'если захотите узнать обо всём, что я умею, то в любое время спросите «что ты умеешь?».';
         if ($new && $empty) {
             return [
                 'session_state' => [

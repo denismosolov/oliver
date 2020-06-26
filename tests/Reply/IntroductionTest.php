@@ -47,5 +47,6 @@ final class IntroductionTest extends TestCase
         $this->assertArrayHasKey('text', $result['session_state']);
         $this->assertArrayHasKey('context', $result['session_state']);
         $this->assertStringContainsStringIgnoringCase('здравствуйте', $result['response']['text']);
+        $this->assertStringContainsStringIgnoringCase('что ты умеешь', $result['response']['text']);
     }
 }
