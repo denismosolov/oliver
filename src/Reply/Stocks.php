@@ -41,7 +41,14 @@ class Stocks implements ReplyInterface
                     return strtolower($i->getInstrumentType()) === 'stock';
                 }
             );
-            $text = '';
+            $hint = '';
+            if (count($stocks) > 0) {
+                $text = '';
+                $hint = 'чтобы узнать о статусе ваших активных заявок, скажите: мои заявки, ';
+            } else {
+                $text = 'на вашем брокерском счёте нет акций, ';
+                $hint = 'чтобы купить акции, скажите купи 10 лотов яндекс, ';
+            }
             foreach ($stocks as $s) {
                 $tradeStatus = $this->client->getInstrumentInfo($s->getFigi());
                 $status = $tradeStatus->getTrade_status();
@@ -54,6 +61,7 @@ class Stocks implements ReplyInterface
                     // @todo непонятно
                 }
             }
+            $text .= $hint;
             return [
                 'session_state' => [
                     'text' => $text,
@@ -79,14 +87,14 @@ class Stocks implements ReplyInterface
         // @todo: check if null
         $shares = sprintf($balance === 1 ? "%d акция" : "%d акций", $balance); // ngettext doesnot work in Yandex Cloud
         $text = sprintf(
-            "%s, минимальная цена сегодня: %g, максимальная цена: %g, у вас %s.",
+            "%s, минимальная цена сегодня: %g, максимальная цена: %g, у вас %s, ",
             $ticker,
             $dayLow,
             $dayHigh,
             $shares
         );
         if (is_float($average) && $average) {
-            $text .= sprintf('средняя цена: %g.', $average);
+            $text .= sprintf('средняя цена: %g,', $average);
         }
         return $text;
     }
@@ -98,7 +106,7 @@ class Stocks implements ReplyInterface
         // @todo: check if null
         $shares = sprintf($balance === 1 ? "%d акция" : "%d акций", $balance); // ngettext doesnot work in Yandex Cloud
         $text = sprintf(
-            "%s, у вас %s, биржа закрыта.",
+            "%s, у вас %s, биржа закрыта, ",
             $ticker,
             $shares
         );

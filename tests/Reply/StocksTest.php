@@ -101,5 +101,65 @@ final class StocksTest extends TestCase
         // @todo: fix tinkoff invest php sdk first
         // $this->assertStringContainsStringIgnoringCase('средняя цена', $result['response']['text']);
         $this->assertStringContainsStringIgnoringCase("у вас $amount акций", $result['response']['text']);
+        $this->assertStringContainsStringIgnoringCase('мои заявки', $result['response']['text']);
+    }
+
+    public function testNoSharesTCS(): void
+    {
+        $event = [
+            "meta" => [
+                "locale" => "ru-RU",
+                "timezone" => "Europe/Moscow",
+                "client_id" => "ru.yandex.searchplugin/5.80 (Samsung Galaxy; Android 4.4)",
+                "interfaces" => [
+                    "screen" => [],
+                    "account_linking" => []
+                ]
+            ],
+            "request" => [
+                "command" => "баланс",
+                "original_utterance" => "баланс",
+                "type" => "SimpleUtterance",
+                "markup" => [
+                    "dangerous_context" => true
+                ],
+                "payload" => [],
+                'nlu' => [
+                    'tokens' => [
+                        'баланс',
+                    ],
+                    'entities' => [],
+                    'intents' => [
+                      'my.stocks' => [
+                        'slots' => [],
+                      ],
+                    ]
+                ],
+            ],
+            "session" => [
+                "new" => true,
+            ],
+            "version" => "1.0"
+        ];
+
+        $portfolio = $this->createStub(TIPortfolio::class);
+        $instrument = $this->createStub(TIPortfolioInstrument::class);
+        $portfolio->method('getAllinstruments')
+                    ->willReturn([]);
+        $client = $this->createStub(TIClient::class);
+        $client->method('getPortfolio')
+                ->willReturn($portfolio);
+
+        $stocks = new Stocks($client);
+        $result = $stocks->handle($event);
+        $this->assertIsArray($result);
+        $this->assertArrayHasKey('response', $result);
+        $this->assertArrayHasKey('version', $result);
+        $this->assertArrayHasKey('text', $result['response']);
+        $this->assertArrayHasKey('session_state', $result);
+        $this->assertArrayHasKey('text', $result['session_state']);
+        $this->assertArrayHasKey('context', $result['session_state']);
+        $this->assertStringContainsStringIgnoringCase('нет акций', $result['response']['text']);
+        $this->assertStringContainsStringIgnoringCase('чтобы купить акции', $result['response']['text']);
     }
 }
