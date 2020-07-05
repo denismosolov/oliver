@@ -210,7 +210,7 @@ class MarketOrderBuyStock implements ReplyInterface
     private function hint(array $event): array
     {
         $name = $event['state']['session']['order_details']['name'] ?? 'и название компании';
-        $text = 'операция отменена, когда захотить купи акции по рыночной цене,';
+        $text = 'операция отменена, когда захотите купи акции по рыночной цене,';
         $text .= sprintf('скажите: купи два лота %s,', $name);
         return [
             'session_state' => [
