@@ -33,6 +33,7 @@ class Stocks implements ReplyInterface
     public function handle(array $event): array
     {
         if (isset($event['request']['nlu']['intents']['my.stocks'])) {
+            $singlePassMode = $event['session']['new'] === true; // однопроходный режим
             $port = $this->client->getPortfolio();
             $instruments = $port->getAllinstruments();
             $stocks = array_filter(
@@ -61,7 +62,9 @@ class Stocks implements ReplyInterface
                     // @todo непонятно
                 }
             }
-            $text .= $hint;
+            if (! $singlePassMode) {
+                $text .= $hint;
+            }
             return [
                 'session_state' => [
                     'text' => $text,
@@ -69,7 +72,7 @@ class Stocks implements ReplyInterface
                 ],
                 'response' => [
                     'text' => $text,
-                    'end_session' => false,
+                    'end_session' => $singlePassMode,
                 ],
                 'version' => '1.0',
             ];
