@@ -94,6 +94,7 @@ final class StocksTest extends TestCase
         $result = $stocks->handle($event);
         $this->assertIsArray($result);
         $this->assertArrayHasKey('response', $result);
+        $this->assertFalse($result['response']['end_session']);
         $this->assertArrayHasKey('version', $result);
         $this->assertArrayHasKey('text', $result['response']);
         $this->assertArrayHasKey('session_state', $result);
@@ -155,6 +156,7 @@ final class StocksTest extends TestCase
         $result = $stocks->handle($event);
         $this->assertIsArray($result);
         $this->assertArrayHasKey('response', $result);
+        $this->assertTrue($result['response']['end_session']);
         $this->assertArrayHasKey('version', $result);
         $this->assertArrayHasKey('text', $result['response']);
         $this->assertArrayHasKey('session_state', $result);
@@ -227,6 +229,7 @@ final class StocksTest extends TestCase
         $this->assertIsArray($result);
         $this->assertArrayHasKey('response', $result);
         $this->assertArrayHasKey('version', $result);
+        $this->assertFalse($result['response']['end_session']);
         $this->assertArrayHasKey('text', $result['response']);
         $this->assertArrayHasKey('session_state', $result);
         $this->assertArrayHasKey('text', $result['session_state']);
@@ -280,6 +283,7 @@ final class StocksTest extends TestCase
         $this->assertIsArray($result);
         $this->assertArrayHasKey('response', $result);
         $this->assertArrayHasKey('version', $result);
+        $this->assertTrue($result['response']['end_session']);
         $this->assertArrayHasKey('text', $result['response']);
         $this->assertArrayHasKey('session_state', $result);
         $this->assertArrayHasKey('text', $result['session_state']);
