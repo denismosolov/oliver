@@ -12,8 +12,10 @@ use Oliver\Reply\Orders;
 use Oliver\Reply\Repeat;
 use Oliver\Reply\MarketOrderBuyStock;
 use Oliver\Reply\MarketOrderSellStock;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerInterface;
 
-class Application
+class Application implements LoggerAwareInterface
 {
     /**
      * request data
@@ -31,6 +33,8 @@ class Application
      */
     private TIClient $client;
 
+    private LoggerInterface $logger;
+
     public function __construct()
     {
     }
@@ -47,6 +51,11 @@ class Application
     public function setEnv(array $env): void
     {
         $this->env = $env;
+    }
+
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
     }
 
     /**
@@ -70,8 +79,8 @@ class Application
                 new Repeat(),
                 new Stocks($this->client),
                 new Orders($this->client),
-                new MarketOrderBuyStock($this->client),
-                new MarketOrderSellStock($this->client),
+                new MarketOrderBuyStock($this->client, $this->logger),
+                new MarketOrderSellStock($this->client, $this->logger),
             ];
             foreach ($replies as $reply) {
                 $response = $reply->handle($this->event);
@@ -80,10 +89,11 @@ class Application
                 }
             }
         } catch (\Exception $e) {
-            // @todo: обработка разных искочений, по некоторым не надо завершать сессию
-            // запись в лог
-            print $e->getMessage();
-            print $e->getTraceAsString();
+            // @todo: обработка исключений, по некоторым не надо завершать сессию
+            $this->logger->warning(
+                'Исключительная ситуация в приложении',
+                ['exception' => $e]
+            );
             // @todo: покрой тестами
             return [
                 'response' => [
