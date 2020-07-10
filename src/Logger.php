@@ -33,11 +33,11 @@ class Logger extends AbstractLogger
     {
         if ($this->id) {
             // @todo: print level
-            printf('%s: %s %s', $this->id, $level, $message);
+            printf("%s %s %s\n", $level, $this->id, $message);
             $isException = isset($context['exception']) && is_a($context['exception'], '\Exception');
             if ($isException) {
-                printf('%s: %s', $this->id, $context['exception']->getMessage());
-                printf('%s: %s', $this->id, $context['exception']->getTraceAsString());
+                printf("%s %s %s\n", $level, $this->id, $context['exception']->getMessage());
+                printf("%s %s %s\n", $level, $this->id, $context['exception']->getTraceAsString());
             }
         }
     }

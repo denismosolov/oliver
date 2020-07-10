@@ -11,7 +11,7 @@ final class LoggerTest extends TestCase
 {
     public function testCloudOutput(): void
     {
-        $this->expectOutputString('id: error message');
+        $this->expectOutputString("error id message\n");
         $logger = new Logger('id');
         $logger->error('message');
     }
@@ -20,7 +20,9 @@ final class LoggerTest extends TestCase
     {
         // phpcs:disable
         $expected = <<<OUT
-id: error messageid: exid: #0 /home/denis/Documents/oliver/vendor/phpunit/phpunit/src/Framework/TestCase.php(1413): Oliver\LoggerTest->testCloudOutputException()
+error id message
+error id ex
+error id #0 /home/denis/Documents/oliver/vendor/phpunit/phpunit/src/Framework/TestCase.php(1413): Oliver\LoggerTest->testCloudOutputException()
 #1 /home/denis/Documents/oliver/vendor/phpunit/phpunit/src/Framework/TestCase.php(1030): PHPUnit\Framework\TestCase->runTest()
 #2 /home/denis/Documents/oliver/vendor/phpunit/phpunit/src/Framework/TestResult.php(692): PHPUnit\Framework\TestCase->runBare()
 #3 /home/denis/Documents/oliver/vendor/phpunit/phpunit/src/Framework/TestCase.php(771): PHPUnit\Framework\TestResult->run()
@@ -32,6 +34,7 @@ id: error messageid: exid: #0 /home/denis/Documents/oliver/vendor/phpunit/phpuni
 #9 /home/denis/Documents/oliver/vendor/phpunit/phpunit/src/TextUI/Command.php(68): PHPUnit\TextUI\Command->run()
 #10 /home/denis/Documents/oliver/vendor/phpunit/phpunit/phpunit(61): PHPUnit\TextUI\Command::main()
 #11 {main}
+
 OUT;
         // phpcs:enable
         $this->expectOutputString($expected);
