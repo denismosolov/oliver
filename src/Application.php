@@ -93,13 +93,18 @@ class Application
                 'version' => '1.0',
             ];
         }
+        // @todo: create a Default reply and add the the end of the $replies
+        $singlePassMode = $this->event['session']['new'] === true; // однопроходный режим
         // @todo: неизвестная команда, справка?
         $text = 'пожалуйста, повторите ещё раз, ';
         $hint = 'если не знаете, что делать, то скажите: купи одну акцию яндекс';
+        if (! $singlePassMode) {
+            $text .= $hint;
+        }
         return [
             'response' => [
-                'text' => $text . $hint,
-                'end_session' => false,
+                'text' => $text,
+                'end_session' => $singlePassMode,
             ],
             'version' => '1.0',
         ];
