@@ -123,7 +123,7 @@ class MarketOrderSellStock implements ReplyInterface
     {
         $this->logger->info(
             $te->getMessage(),
-            ['exception' => $te->getMessage()]
+            ['exception' => $te]
         );
         $text = 'заявка на продажу отклонена системой,';
         if (preg_match('/\[OrderNotAvailable\]/', $te->getMessage())) {

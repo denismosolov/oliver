@@ -122,7 +122,7 @@ class MarketOrderBuyStock implements ReplyInterface
     {
         $this->logger->info(
             $te->getMessage(),
-            ['exception' => $te->getMessage()]
+            ['exception' => $te]
         );
         $text = 'заявка на покупку отклонена системой,';
         // Недостаточно активов для сделки [OrderNotAvailable]
