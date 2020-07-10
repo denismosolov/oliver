@@ -91,7 +91,7 @@ class Application implements LoggerAwareInterface
         } catch (\Exception $e) {
             // @todo: обработка исключений, по некоторым не надо завершать сессию
             $this->logger->warning(
-                'Исключительная ситуация в приложении',
+                'Исключительная ситуация',
                 ['exception' => $e]
             );
             // @todo: покрой тестами
