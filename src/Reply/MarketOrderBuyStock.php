@@ -110,7 +110,6 @@ class MarketOrderBuyStock implements ReplyInterface
                 return $text;
             default:
                 // @todo: add test case
-                $this->logger->info($order->getStatus());
                 return 'произошло что-то непонятное, проверьте свои заявки и акции,';
         }
     }
