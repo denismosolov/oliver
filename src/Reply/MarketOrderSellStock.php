@@ -93,8 +93,8 @@ class MarketOrderSellStock implements ReplyInterface
                 return 'заявка на продажу отправлена,';
             case 'Rejected':
                 $text = 'заявка на продажу отклонена системой,';
-                $this->logger->info($order->getRejectReason());
-                $this->logger->info($order->getMessage());
+                $this->logger->debug($order->getRejectReason());
+                $this->logger->debug($order->getMessage());
                 if (
                     $order->getRejectReason() === 'Unknown' &&
                     preg_match('/ОШИБКА:\s+\(\d+\)/', $order->getMessage())
@@ -120,7 +120,7 @@ class MarketOrderSellStock implements ReplyInterface
      */
     private function checkException(TIException $te): string
     {
-        $this->logger->info(
+        $this->logger->debug(
             'Исключительная ситуация',
             ['exception' => $te]
         );

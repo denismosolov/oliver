@@ -90,7 +90,7 @@ class Application implements LoggerAwareInterface
             }
         } catch (\Exception $e) {
             // @todo: обработка исключений, по некоторым не надо завершать сессию
-            $this->logger->warning(
+            $this->logger->debug(
                 'Исключительная ситуация',
                 ['exception' => $e]
             );

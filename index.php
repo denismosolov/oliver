@@ -27,7 +27,10 @@ function main($event, $context): array
         $client = new TIClient($token, TISiteEnum::EXCHANGE);
     } catch (TIException $ce) {
         // запись в лог
-        $logger->error('Ошибка при соединении с Тинькофф Инвестиции OpenAPI', ['exception' => $ce]);
+        $logger->debug(
+            'Исключительная ситуация',
+            ['exception' => $ce]
+        );
         // завершение работы
         return [
             'response' => [

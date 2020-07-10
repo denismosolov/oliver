@@ -92,8 +92,8 @@ class MarketOrderBuyStock implements ReplyInterface
             case 'Rejected':
                 $text = 'заявка на покупку отклонена системой,';
                 // ОШИБКА: (579) Для выбранного финансового инструмента цена должна быть не меньше 126.02
-                $this->logger->info($order->getRejectReason());
-                $this->logger->info($order->getMessage());
+                $this->logger->debug($order->getRejectReason());
+                $this->logger->debug($order->getMessage());
                 if (
                     $order->getRejectReason() === 'Unknown' &&
                     preg_match('/ОШИБКА:\s+\(\d+\)/', $order->getMessage())
@@ -119,7 +119,7 @@ class MarketOrderBuyStock implements ReplyInterface
      */
     private function checkException(TIException $te): string
     {
-        $this->logger->info(
+        $this->logger->debug(
             'Исключительная ситуация',
             ['exception' => $te]
         );
