@@ -11,6 +11,7 @@
     </testsuite>
     <testsuite name="utils">
       <file>tests/DeclensionTest.php</file>
+      <file>tests/LoggerTest.php</file>
     </testsuite>
   </testsuites>
 </phpunit>

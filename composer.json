@@ -16,7 +16,8 @@
     },
     "require": {
         "james.rus52/tinkoffinvest": "dev-master",
-        "ivanovsaleksejs/num-to-text": "dev-master"
+        "ivanovsaleksejs/num-to-text": "dev-master",
+        "psr/log": "^1.1"
     },
     "autoload": {
         "psr-4": {

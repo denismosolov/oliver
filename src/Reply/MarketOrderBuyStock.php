@@ -9,6 +9,7 @@ use jamesRUS52\TinkoffInvest\TIInstrument;
 use jamesRUS52\TinkoffInvest\TIOperationEnum;
 use jamesRUS52\TinkoffInvest\TIException;
 use jamesRUS52\TinkoffInvest\TIOrder;
+use Psr\Log\LoggerInterface;
 
 class MarketOrderBuyStock implements ReplyInterface
 {
@@ -17,9 +18,13 @@ class MarketOrderBuyStock implements ReplyInterface
      */
     private $client;
 
-    public function __construct(TIClient $client)
+    // @todo: better dependency injection
+    private $logger;
+
+    public function __construct(TIClient $client, LoggerInterface $logger)
     {
         $this->client = $client;
+        $this->logger = $logger;
     }
 
     public function handle(array $event): array
@@ -87,8 +92,8 @@ class MarketOrderBuyStock implements ReplyInterface
             case 'Rejected':
                 $text = 'заявка на покупку отклонена системой,';
                 // ОШИБКА: (579) Для выбранного финансового инструмента цена должна быть не меньше 126.02
-                print $order->getRejectReason() . "\n";
-                print $order->getMessage() . "\n";
+                $this->logger->debug($order->getRejectReason());
+                $this->logger->debug($order->getMessage());
                 if (
                     $order->getRejectReason() === 'Unknown' &&
                     preg_match('/ОШИБКА:\s+\(\d+\)/', $order->getMessage())
@@ -105,7 +110,6 @@ class MarketOrderBuyStock implements ReplyInterface
                 return $text;
             default:
                 // @todo: add test case
-                print $order->getStatus() . "\n";
                 return 'произошло что-то непонятное, проверьте свои заявки и акции,';
         }
     }
@@ -115,7 +119,10 @@ class MarketOrderBuyStock implements ReplyInterface
      */
     private function checkException(TIException $te): string
     {
-        print $te->getMessage() . "\n";
+        $this->logger->debug(
+            'Исключительная ситуация',
+            ['exception' => $te]
+        );
         $text = 'заявка на покупку отклонена системой,';
         // Недостаточно активов для сделки [OrderNotAvailable]
         if (preg_match('/\[OrderNotAvailable\]/', $te->getMessage())) {

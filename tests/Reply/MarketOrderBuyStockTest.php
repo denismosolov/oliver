@@ -10,6 +10,7 @@ use jamesRUS52\TinkoffInvest\TIOperationEnum;
 use jamesRUS52\TinkoffInvest\TIOrder;
 use PHPUnit\Framework\TestCase;
 use Oliver\Reply\MarketOrderBuyStock;
+use Oliver\Logger;
 
 final class MarketOrderBuyStockTest extends TestCase
 {
@@ -82,8 +83,8 @@ final class MarketOrderBuyStockTest extends TestCase
                     $this->equalTo(TIOperationEnum::BUY),
                     $this->equalTo(null) // I wonder if it works?
                 )->willReturn($order);
-
-        $newOrder = new MarketOrderBuyStock($client);
+        $logger = new Logger('');
+        $newOrder = new MarketOrderBuyStock($client, $logger);
         $result = $newOrder->handle($event);
         $this->assertStructure($result);
         $this->assertNotContains('market_order_buy_stock', $result['session_state']['context']);
@@ -184,7 +185,8 @@ final class MarketOrderBuyStockTest extends TestCase
                 ->method('sendOrder');
         $client->method('getInstrumentByFigi')
                 ->willReturn($instrument);
-        $newOrder = new MarketOrderBuyStock($client);
+        $logger = new Logger('');
+        $newOrder = new MarketOrderBuyStock($client, $logger);
         $result = $newOrder->handle($event);
         $this->assertStructure($result);
         $this->assertContains('market_order_buy_stock', $result['session_state']['context']);
@@ -288,7 +290,8 @@ final class MarketOrderBuyStockTest extends TestCase
                 ->method('sendOrder');
         $client->method('getInstrumentByFigi')
                 ->willReturn($instrument);
-        $newOrder = new MarketOrderBuyStock($client);
+        $logger = new Logger('');
+        $newOrder = new MarketOrderBuyStock($client, $logger);
         $result = $newOrder->handle($event);
         $this->assertStructure($result);
         $this->assertContains('market_order_buy_stock', $result['session_state']['context']);
@@ -347,7 +350,8 @@ final class MarketOrderBuyStockTest extends TestCase
         $client = $this->createMock(TIClient::class);
         $client->expects($this->never())
                 ->method('sendOrder');
-        $newOrder = new MarketOrderBuyStock($client);
+        $logger = new Logger('');
+        $newOrder = new MarketOrderBuyStock($client, $logger);
         $result = $newOrder->handle($event);
         $this->assertStructure($result);
         $this->assertNotContains('market_order_buy_stock', $result['session_state']['context']);
@@ -404,7 +408,8 @@ final class MarketOrderBuyStockTest extends TestCase
                 ->method('sendOrder');
         $client->method('getInstrumentByFigi')
                 ->willReturn($instrument);
-        $newOrder = new MarketOrderBuyStock($client);
+        $logger = new Logger('');
+        $newOrder = new MarketOrderBuyStock($client, $logger);
         $result = $newOrder->handle($event);
         $this->assertStructure($result);
         $this->assertContains('market_order_buy_stock', $result['session_state']['context']);
@@ -451,7 +456,8 @@ final class MarketOrderBuyStockTest extends TestCase
         $client = $this->createMock(TIClient::class);
         $client->expects($this->never())
                 ->method('sendOrder');
-        $order = new MarketOrderBuyStock($client);
+        $logger = new Logger('');
+        $order = new MarketOrderBuyStock($client, $logger);
         $result = $order->handle($event);
         $this->assertIsArray($result);
         $this->assertEquals([], $result);

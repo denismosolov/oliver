@@ -10,6 +10,10 @@ test:
 	./vendor/bin/phpcs --standard=PSR12 src/ tests/
 	./vendor/bin/phpunit
 
+logs:
+	yc config profile activate oliver
+	yc serverless function logs oliver
+
 fixpsr12:
 	./vendor/bin/phpcbf --standard=PSR12 src/ tests/
 
