@@ -136,12 +136,24 @@ class MarketOrderBuyStock implements ReplyInterface
                 $text = 'недостаточно активов для сделки, ';
                 $text .= 'пополните счёт и попробуйте снова, ';
             }
+        // Недостаточно заявок в стакане для тикера TCS [OrderBookException]
+        } elseif (preg_match('/\[OrderBookException\]/', $te->getMessage())) {
+            $text = preg_replace('/\[OrderBookException\]/', '', $te->getMessage());
+            if (is_null($text)) {
+                // @todo: ????
+                $text = 'неизвестная ошибка,';
+            }
+            if (preg_match('/Недостаточно заявок в стакане для тикера/i', $text)) {
+                // @todo: test case
+                $text = 'недостаточно заявок в стакане, ';
+                $text .= 'похоже биржа закрыта, попробуйте позже ';
+            }
         } elseif (preg_match('/\[VALIDATION_ERROR\]/', $te->getMessage())) {
             if (preg_match('/has invalid scale/', $te->getMessage())) {
                 $text .= 'недопустимый шаг цены, узнайте минимальный шаг цены для этого инструмента на бирже,';
             }
         } else {
-            $text = 'ошибка при взаимодействии с биржей, попробуйте создать лимитную заявку позже,';
+            $text = 'ошибка при взаимодействии с биржей, попробуйте позже,';
         }
         return $text;
     }
