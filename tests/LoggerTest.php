@@ -11,7 +11,7 @@ final class LoggerTest extends TestCase
 {
     public function testCloudOutput(): void
     {
-        $this->expectOutputString('id: message');
+        $this->expectOutputString('id: error message');
         $logger = new Logger('id');
         $logger->error('message');
     }
@@ -20,7 +20,7 @@ final class LoggerTest extends TestCase
     {
         // phpcs:disable
         $expected = <<<OUT
-id: messageid: exid: #0 /home/denis/Documents/oliver/vendor/phpunit/phpunit/src/Framework/TestCase.php(1413): Oliver\LoggerTest->testCloudOutputException()
+id: error messageid: exid: #0 /home/denis/Documents/oliver/vendor/phpunit/phpunit/src/Framework/TestCase.php(1413): Oliver\LoggerTest->testCloudOutputException()
 #1 /home/denis/Documents/oliver/vendor/phpunit/phpunit/src/Framework/TestCase.php(1030): PHPUnit\Framework\TestCase->runTest()
 #2 /home/denis/Documents/oliver/vendor/phpunit/phpunit/src/Framework/TestResult.php(692): PHPUnit\Framework\TestCase->runBare()
 #3 /home/denis/Documents/oliver/vendor/phpunit/phpunit/src/Framework/TestCase.php(771): PHPUnit\Framework\TestResult->run()
