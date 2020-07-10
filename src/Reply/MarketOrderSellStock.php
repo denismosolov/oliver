@@ -121,7 +121,7 @@ class MarketOrderSellStock implements ReplyInterface
     private function checkException(TIException $te): string
     {
         $this->logger->info(
-            $te->getMessage(),
+            'Исключительная ситуация в клиенте',
             ['exception' => $te]
         );
         $text = 'заявка на продажу отклонена системой,';
