@@ -34,14 +34,14 @@ make test
 ```
 
 ## Деплой в Яндекс.Облако
-Выпустите [токены OpenAPI](https://tinkoffcreditsystems.github.io/invest-openapi/auth/) для биржи и Sandbox , запишите их в `TINKOFF_OPEN_API_SANDBOX` и `TINKOFF_OPEN_API_EXCHANGE` в файле `.env`.
+Выпустите [токен OpenAPI](https://tinkoffcreditsystems.github.io/invest-openapi/auth/) для биржи, запишите значение токена в `TINKOFF_OPEN_API_EXCHANGE` в файле `.env`.
 
 А вот и команда для деплоя кода в Яндекс.Облако.
 ```
 make create_version
 ```
 
-Если всё сделаете правильно, то у функции `oliver` появится версия и вы увидите исходный код в Яндекс.Облаке, а так же переменые окружения.
+Если всё сделаете правильно, то у функции `oliver` появится версия и вы увидите исходный код в Яндекс.Облаке, а так же переменую окружения `TINKOFF_OPEN_API_EXCHANGE`.
 
 ## Навык в Яндекс.Диалоги
 Справка https://yandex.ru/dev/dialogs/alice/doc/smart-home/start-docpage/
