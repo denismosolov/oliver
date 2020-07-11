@@ -32,7 +32,6 @@ make
 ```
 make test
 ```
-Для тестов используется песочница Tinkoff Invest Open API, если часто запускать тесты, то можно упереться в [ограничения песочницы](https://tinkoffcreditsystems.github.io/invest-openapi/rest/).
 
 ## Деплой в Яндекс.Облако
 Выпустите [токены OpenAPI](https://tinkoffcreditsystems.github.io/invest-openapi/auth/) для биржи и Sandbox , запишите их в `TINKOFF_OPEN_API_SANDBOX` и `TINKOFF_OPEN_API_EXCHANGE` в файле `.env`.
