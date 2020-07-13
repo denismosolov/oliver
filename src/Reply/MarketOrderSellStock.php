@@ -131,8 +131,20 @@ class MarketOrderSellStock implements ReplyInterface
                 // @todo: ????
                 $text = 'неизвестная ошибка,';
             }
+        // Недостаточно заявок в стакане для тикера TCS [OrderBookException]
+        } elseif (preg_match('/\[OrderBookException\]/', $te->getMessage())) {
+            $text = preg_replace('/\[OrderBookException\]/', '', $te->getMessage());
+            if (is_null($text)) {
+                // @todo: ????
+                $text = 'неизвестная ошибка,';
+            }
+            if (preg_match('/Недостаточно заявок в стакане для тикера/i', $text)) {
+                // @todo: test case
+                $text = 'недостаточно заявок в стакане, ';
+                $text .= 'похоже биржа закрыта, попробуйте позже ';
+            }
         } else {
-            $text = 'ошибка при взаимодействии с биржей, попробуйте создать лимитную заявку позже,';
+            $text = 'ошибка при взаимодействии с биржей, попробуйте позже,';
         }
         return $text;
     }
