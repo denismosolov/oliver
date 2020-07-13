@@ -111,13 +111,14 @@ class Application implements LoggerAwareInterface
         if (! $singlePassMode) {
             $text .= $hint;
         }
-        $this->logger->debug(
-            sprintf(
-                "command: %s\noriginal_utterance: %s\n",
-                $this->event['request']['command'],
-                $this->event['request']['original_utterance']
-            )
-        );
+        if (! $this->event['request']['original_utterance'] !== 'ping') {
+            $this->logger->debug(
+                sprintf(
+                    "command: %s",
+                    $this->event['request']['command']
+                )
+            );
+        }
         return [
             'response' => [
                 'text' => $text,
