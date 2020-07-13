@@ -4,6 +4,15 @@ entity OperationUnit:
         lot:
             %lemma
             лот
+            # ошибки распознавания
+            %exact
+            лото
+            лотос
+            котов
+            сотов
+            модов
+            мотов
+            мотор
         share:
             %lemma
             акция
@@ -22,16 +31,676 @@ entity OperationType:
 entity FIGI:
     values:
         BBG005DXJS36:
-            тиньков(банк)?
-            тинькоф(банк)?
-            тинькофф(банк)?
-            ти си эс (груп)?
-        BBG004S681B4:
-            нлмк
-            эн эл эм ка
+            %exact
+            TCS
+            # ошибки
+            тк тинькофф beholder
+            тк тинькофф penholder
+            чика скруп тинькофф бен холдер
+            %lemma
+            [тинькофф банк?]
+            tcs групп?
+            ткс групп?
+        BBG006L8G4H1:
+            %exact
+            YNDX
+            %lemma
+            яндекс
+        BBG004S68758:
+            %exact
+            BANE
+            %lemma
+            Башнефть
+            Баш нефть
+        BBG004TC84Z8:
+            %exact
+            TRMK
+            ТМК
+            %lemma
+            Трубная Металлургическая Компания
+        BBG004730JJ5:
+            %exact
+            MOEX
+            %lemma
+            Московская Биржа
+            Мосбиржа
+        BBG004S686N0:
+            %exact
+            BANEP
+            %lemma
+            [Башнефть привилегированные акции]
+        BBG008F2T3T2:
+            %exact
+            RUAL
+            %lemma
+            РУСАЛ
+        BBG000RJL816:
+            %exact
+            TTLK
+            %lemma
+            Таттелеком
+            Тат телеком
+        BBG000VKG4R5:
+            %exact
+            MRKU
+            %lemma
+            МРСК Урал
+        BBG004731489:
+            %exact
+            GMKN
+            %lemma
+            Норильский никель
+            Норникель
+        BBG000TJ6F42:
+            %exact
+            MRKZ
+            %lemma
+            МРСК Северо Запад
+            МРСК Северозапад
+        BBG000Q7GG57:
+            %exact
+            TGKB
+            %lemma
+            ТГК 2
+            ТГК два
+        BBG0029SFXB3:
+            %exact
+            KZOS
+            %lemma
+            (ПАО)? КАЗАНЬОРГСИНТЕЗ
+            (ПАО)? КАЗАНЬ ОРГ СИНТЕЗ
+        BBG004S687G6:
+            %exact
+            MSRS
+            МОЭСК
+        BBG000FWGSZ5:
+            %exact
+            IRKT
+            %lemma
+            (Корпорация)? ИРКУТ
+        BBG000N16BP3:
+            %exact
+            ISKJ
+            ИСКЧ
+        BBG004S686W0:
+            %exact
+            UPRO
+            Юнипро
+        BBG000CSZKR2:
+            %exact
+            MBT
+            %lemma
+            АДР МТС
+        BBG004S68FR6:
+            %exact
+            MTLRP
+            %lemma
+            [Мечел Привилегированные акции]
+        BBG0029SG1C1:
+            %exact
+            KZOSP
+            %lemma
+            [(ПАО)? КАЗАНЬОРГСИНТЕЗ акции привилегированные]
+            [(ПАО)? КАЗАНЬОРГСИНТЕЗ префы]
+            [(ПАО)? КАЗАНЬ ОРГ СИНТЕЗ акции привилегированные]
+            [(ПАО)? КАЗАНЬ ОРГ СИНТЕЗ префы]
+        BBG000NLC9Z6:
+            %exact
+            LSNG
+            Ленэнерго
+        BBG00475K2X9:
+            %exact
+            HYDR
+            РусГидро
+            Рус Гидро
+        BBG004S685M3:
+            %exact
+            RTKMP
+            %lemma
+            [Ростелеком Привилегированные акции]
+            [Ростелеком префы]
+        BBG004S68614:
+            %exact
+            AFKS
+            %lemma
+            (АФК)? Система
+        BBG000BX7DH0:
+            %exact
+            VRSB
+            %lemma
+            [ТНС энерго Воронеж]
         BBG004730ZJ9:
+            %exact
+            VTBR
+            %lemma
+            Банк ВТБ
             (банк)? втб
             (банк)? вэ тэ бэ
-        BBG006L8G4H1:
-            яндекс
-            яндекса
+        BBG004731354:
+            %exact
+            ROSN
+            %lemma
+            Роснефть
+        BBG000GQSRR5:
+            %exact
+            NKNC
+            %lemma
+            Нижнекамскнефтехим
+            Нижнекамск нефтехим
+        BBG000RP8V70:
+            %exact
+            CHMK
+            ЧМК
+            челябинский металлургический комбинат
+        BBG00475JZZ6:
+            %exact
+            FEES
+            %lemma
+            ФСК ЕЭС
+            федеральная сетевая компания
+        BBG004730RP0:
+            %exact
+            GAZP
+            %lemma
+            Газпром
+        BBG000NLHR27:
+            %exact
+            VZRZP
+            %lemma
+            [(Банк)? Возрождение акции привилегированные]
+        BBG002B2J5X0:
+            %exact
+            KRKNP
+            %lemma
+            [Саратовский НПЗ акции привилегированные]
+            [Саратовский нефтеперерабатывающий завод акции привилегированные]
+        BBG004S68696:
+            %exact
+            RASP
+            %lemma
+            Распадская
+        BBG000K3STR7:
+            %exact
+            APTK
+            %lemma
+            Аптечная сеть 36 и 6
+            36 и 6
+            тридцать шесть и шесть
+        BBG00475K6C3:
+            %exact
+            CHMF
+            %lemma
+            Северсталь
+        BBG000KTF667:
+            %exact
+            RSTIP
+            %lemma
+            [Российские сети акции привилегированные]
+            [Российские сети префы]
+        BBG0014PFYM2:
+            %exact
+            RUGR
+            %lemma
+            Русгрэйн
+        BBG0047315Y7:
+            %exact
+            SBERP
+            %lemma
+            [Сбербанк России привилегированные акции]
+            [Сбербанк привилегированные акции]
+            [Сбер привилегированные акции]
+            [Сбера привилегированные акции]
+            [Сбербанк России префы]
+            [Сбербанк префы]
+            [Сбер префы]
+            [Сбера префы]
+        BBG000PKWCQ7:
+            %exact
+            MRKV
+            %lemma
+            МРСК Волги
+        BBG000Q49F45:
+            %exact
+            CHEP
+            %lemma
+            ЧТПЗ
+        BBG000QW1WH0:
+            %exact
+            KBTK
+            %lemma
+            Кузбасская топливная компания
+        BBG004S68B31:
+            %exact
+            ALRS
+            %lemma
+            АЛРОСА
+        BBG002458LF8:
+            %exact
+            SELG
+            %lemma
+            Селигдар
+        BBG000RTHVK7:
+            %exact
+            GCHE
+            %lemma
+            Группа Черкизово
+        BBG004S687W8:
+            %exact
+            MSNG
+            %lemma
+            Мосэнерго
+        BBG004S68829:
+            %exact
+            TATNP
+            %lemma
+            Татнефть привилегированные акции
+        BBG0047315D0:
+            %exact
+            SNGS
+            %lemma
+            Сургутнефтегаз
+        BBG000DBD6F6:
+            %exact
+            KLSB
+            %lemma
+            Калужская сбытовая компания
+        BBG000QFH687:
+            %exact
+            TGKA
+            %lemma
+            ТГК 1
+        BBG00B8NN386:
+            %exact
+            GRNT
+            %lemma
+            Городские Инновационные Технологии
+        BBG000F6YP24:
+            %exact
+            ENRU
+            %lemma
+            Энел Россия
+        BBG00HY6V6H5:
+            %exact
+            GTRK
+            %lemma
+            ГТМ
+        BBG00F9XX7H4:
+            %exact
+            RNFT
+            %lemma
+            РуссНефть
+        BBG003LYCMB1:
+            %exact
+            SFIN
+            %lemma
+            САФМАР
+        BBG004S688G4:
+            %exact
+            AKRN
+            %lemma
+            Акрон
+        BBG004RVFCY3:
+            %exact
+            MGNT
+            %lemma
+            Магнит
+        BBG007N0Z367:
+            %exact
+            AGRO
+            %lemma
+            РусАгро
+        BBG00F40L971:
+            %exact
+            FTRE
+            %lemma
+            Финансовая группа БУДУЩЕЕ
+        BBG000LNHHJ9:
+            %exact
+            KMAZ
+            %lemma
+            КАМАЗ
+        BBG000SK7JS5:
+            %exact
+            LNZL
+            %lemma
+            Лензолото
+        BBG0018X6YV1:
+            %exact
+            TRCN
+            %lemma
+            ТрансКонтейнер
+        BBG000RK52V1:
+            %exact
+            OGKB
+            %lemma
+            Вторая генерирующая компания оптового рынка электроэнергии
+        BBG001DJNR51:
+            %exact
+            RBCM
+            %lemma
+            РБК
+        BBG004S682J4:
+            %exact
+            RSTI
+            %lemma
+            Российские сети
+        BBG000VG1034:
+            %exact
+            MRKP
+            %lemma
+            МРСК Центра и Приволжья
+        BBG004731032:
+            %exact
+            LKOH
+            %lemma
+            ЛУКОЙЛ
+        BBG000R607Y3:
+            %exact
+            PLZL
+            %lemma
+            Полюс Золото
+        BBG000QJW156:
+            %exact
+            BSPB
+            %lemma
+            Банк Санкт Петербург
+        BBG004RVFFC0:
+            %exact
+            TATN
+            %lemma
+            Татнефть
+        BBG002YFXL29:
+            %exact
+            UNKL
+            %lemma
+            ЮУНК
+        BBG001BBSZV8:
+            %exact
+            MSST
+            %lemma
+            Мультисистема
+        BBG000MZL2S9:
+            %exact
+            PMSBP
+            %lemma
+            Пермэнергосбыт акции привилегированные
+        BBG004S682Z6:
+            %exact
+            RTKM
+            %lemma
+            Ростелеком
+        BBG004S68CV8:
+            %exact
+            VSMO
+            %lemma
+            ВСМПО АВИСМА
+        BBG000PZ0833:
+            %exact
+            MGTSP
+            %lemma
+            МГТС акции привилегированные
+        BBG004S68CP5:
+            %exact
+            MVID
+            %lemma
+            М.видео
+        BBG004730N88:
+            %exact
+            SBER
+            %lemma
+            Сбербанк России
+            Сбербанк
+            Сбер
+            Сбера
+        BBG002B25NL9:
+            %exact
+            ALNU
+            %lemma
+            АЛРОСА Нюрба
+        BBG004Z2RGW8:
+            %exact
+            ROLO
+            %lemma
+            Русолово
+        BBG004S68BH6:
+            %exact
+            PIKK
+            %lemma
+            ПИК
+        BBG004S689R0:
+            %exact
+            PHOR
+            %lemma
+            ФосАгро
+        BBG003BNWBP3:
+            %exact
+            PRFN
+            %lemma
+            ЧЗПСН
+        BBG004S681B4:
+            %exact
+            NLMK
+            # ошибки
+            на (к|ломка|мк|луна)
+            и? на лунка
+            мвк
+            %lemma
+            нлмк
+            (новолипецкий|липецкий) металлургический? комбинат
+            # ошибки
+            (в|на)? (новолипецкий|липецкий) металлургический? комбинат
+        BBG004S68JR8:
+            %exact
+            SVAV
+            %lemma
+            СОЛЛЕРС
+        BBG000Q7ZZY2:
+            %exact
+            UNAC
+            %lemma
+            Объединенная авиастроительная корпорация
+        BBG000NL6ZD9:
+            %exact
+            IRGZ
+            %lemma
+            Иркутскэнерго
+        BBG000RG4ZQ4:
+            %exact
+            TGKN
+            %lemma
+            ТГК 14
+        BBG00475KHX6:
+            %exact
+            TRNFP
+            %lemma
+            Транснефть
+        BBG004S681W1:
+            %exact
+            MTSS
+            %lemma
+            МТС
+        BBG000NLB2G3:
+            %exact
+            KROT
+            %lemma
+            Красный Октябрь
+        BBG004S68C39:
+            %exact
+            LSRG
+            %lemma
+            Группа ЛСР
+        BBG000R466J1:
+            %exact
+            RUSP
+            %lemma
+            Русполимет
+        BBG004S681M2:
+            %exact
+            SNGSP
+            %lemma
+            Сургутнефтегаз привилегированные акции
+        BBG004S68BR5:
+            %exact
+            NMTP
+            %lemma
+            НМТП
+        BBG004S68507:
+            %exact
+            MAGN
+            %lemma
+            Магнитогорский металлургический комбинат
+        BBG000NLCCM3:
+            %exact
+            LSNGP
+            %lemma
+            Ленэнерго акции привилегированные
+        BBG004S684M6:
+            %exact
+            SIBN
+            %lemma
+            Газпром нефть
+        BBG000GQSVC2:
+            %exact
+            NKNCP
+            %lemma
+            Нижнекамскнефтехим акции привилегированные
+        BBG000V07CB8:
+            %exact
+            DVEC
+            %lemma
+            ДЭК
+        BBG002BCQK67:
+            %exact
+            NSVZ
+            %lemma
+            Наука Связь
+        BBG000Q7GJ60:
+            %exact
+            TGKBP
+            %lemma
+            ТГК 2 акции привилегированные
+        BBG000TZGXK8:
+            %exact
+            PRTK
+            %lemma
+            ПРОТЕК
+        BBG00475KKY8:
+            %exact
+            NVTK
+            %lemma
+            НОВАТЭК
+        BBG000F6H7K3:
+            %exact
+            TGKD
+            %lemma
+            Квадра
+        BBG000RJWGC4:
+            %exact
+            AMEZ
+            %lemma
+            Ашинский метзавод
+        BBG000BN56Q9:
+            %exact
+            DSKY
+            %lemma
+            Детский Мир
+        BBG004S68598:
+            %exact
+            MTLR
+            %lemma
+            Мечел
+        BBG000LWNRP3:
+            %exact
+            RKKE
+            %lemma
+            РКК Энергия им.С.П.Королева
+        BBG000QQPXZ5:
+            %exact
+            LNTA
+            %lemma
+            Лента
+        BBG000VJMH65:
+            %exact
+            MRKS
+            %lemma
+            МРСК Сибири
+        BBG001BBGNS2:
+            %exact
+            OBUV
+            %lemma
+            Обувь России
+        BBG000C7P5M7:
+            %exact
+            MRKY
+            %lemma
+            МРСК Юга
+        BBG008HD3V85:
+            %exact
+            UWGN
+            %lemma
+            ОВК
+        BBG000MZL0Y6:
+            %exact
+            PMSB
+            %lemma
+            Пермэнергосбыт
+        BBG000QF1Q17:
+            %exact
+            FESH
+            %lemma
+            ДВМП
+        BBG009GSYN76:
+            %exact
+            CBOM
+            %lemma
+            МКБ
+        BBG004S68DD6:
+            %exact
+            MSTT
+            %lemma
+            Мостотрест
+        BBG00BGKYH17:
+            %exact
+            NKHP
+            %lemma
+            НКХП
+        BBG000LWVHN8:
+            %exact
+            DASB
+            %lemma
+            Дагестанская энергосбытовая компания
+        BBG000VH7TZ8:
+            %exact
+            MRKC
+            %lemma
+            МРСК Центра
+        BBG0027F0Y27:
+            %exact
+            CNTLP
+            %lemma
+            Центральный Телеграф акции привилегированные
+        BBG004S68473:
+            %exact
+            IRAO
+            %lemma
+            Интер РАО ЕЭС
+        BBG000BBV4M5:
+            %exact
+            CNTL
+            %lemma
+            Центральный Телеграф
+        BBG004S683W7:
+            %exact
+            AFLT
+            %lemma
+            Аэрофлот
+        BBG00JXPFBN0:
+            %exact
+            FIVE
+            %lemma
+            ГДР X5 RetailGroup
+        BBG002W2FT69:
+            %exact
+            ABRD
+            %lemma
+            АбрауДюрсо
