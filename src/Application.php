@@ -6,6 +6,7 @@ namespace Oliver;
 
 use Oliver\Reply\Stocks;
 use jamesRUS52\TinkoffInvest\TIClient;
+use Oliver\Reply\Ping;
 use Oliver\Reply\ICanDo;
 use Oliver\Reply\Introduction;
 use Oliver\Reply\Orders;
@@ -74,6 +75,7 @@ class Application implements LoggerAwareInterface
     {
         try {
             $replies = [
+                new Ping(),
                 new ICanDo(),
                 new Introduction(),
                 new Repeat(),
