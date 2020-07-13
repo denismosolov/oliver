@@ -111,6 +111,13 @@ class Application implements LoggerAwareInterface
         if (! $singlePassMode) {
             $text .= $hint;
         }
+        $this->logger->debug(
+            sprintf(
+                "command: %s\noriginal_utterance: %s\n",
+                $this->event['request']['command'],
+                $this->event['request']['original_utterance']
+            )
+        );
         return [
             'response' => [
                 'text' => $text,
