@@ -21,11 +21,11 @@ function main($event, $context): array
     $containerBuilder->setParameter('tinkoff.invest.site', TISiteEnum::EXCHANGE);
 
     $containerBuilder
-        ->autowire(Logger::class, Logger::class)
+        ->register(Logger::class, Logger::class)
         ->addArgument('%yandex.cloud.request.id%')
     ;
     $containerBuilder
-        ->autowire(TIClient::class, TIClient::class)
+        ->register(TIClient::class, TIClient::class)
         ->addArgument('%tinkoff.invest.token%')
         ->addArgument('%tinkoff.invest.site%')
     ;
@@ -35,20 +35,20 @@ function main($event, $context): array
     ;
 
     $containerBuilder
-    ->register(Stocks::class, Stocks::class)
-    ->addArgument(new Reference(TIClient::class))
-    ;
-    $containerBuilder
-        ->autowire(Orders::class, Orders::class)
+        ->register(Stocks::class, Stocks::class)
         ->addArgument(new Reference(TIClient::class))
     ;
     $containerBuilder
-        ->autowire(MarketOrderBuyStock::class, MarketOrderBuyStock::class)
+        ->register(Orders::class, Orders::class)
+        ->addArgument(new Reference(TIClient::class))
+    ;
+    $containerBuilder
+        ->register(MarketOrderBuyStock::class, MarketOrderBuyStock::class)
         ->addArgument(new Reference(TIClient::class))
         ->addArgument(new Reference(Logger::class))
     ;
     $containerBuilder
-        ->autowire(MarketOrderSellStock::class, MarketOrderSellStock::class)
+        ->register(MarketOrderSellStock::class, MarketOrderSellStock::class)
         ->addArgument(new Reference(TIClient::class))
         ->addArgument(new Reference(Logger::class))
     ;
