@@ -15,7 +15,7 @@ logs:
 	yc serverless function logs oliver
 
 fixpsr12:
-	./vendor/bin/phpcbf --standard=PSR12 src/ tests/
+	./vendor/bin/phpcbf --standard=PSR12 src/ tests/ index.php
 
 init_yc:
 	yc init

@@ -4,15 +4,8 @@ declare(strict_types=1);
 
 namespace Oliver;
 
-use Oliver\Reply\Stocks;
 use jamesRUS52\TinkoffInvest\TIClient;
-use Oliver\Reply\Ping;
-use Oliver\Reply\ICanDo;
-use Oliver\Reply\Introduction;
-use Oliver\Reply\Orders;
-use Oliver\Reply\Repeat;
-use Oliver\Reply\MarketOrderBuyStock;
-use Oliver\Reply\MarketOrderSellStock;
+use Oliver\Reply\ReplyInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 
@@ -25,14 +18,9 @@ class Application implements LoggerAwareInterface
     private array $event;
 
     /**
-     * $_ENV
+     * Цепочка обработчиков запросов
      */
-    private array $env = [];
-
-    /**
-     * Tinkoff Open API Client
-     */
-    private TIClient $client;
+    private array $replies = [];
 
     private LoggerInterface $logger;
 
@@ -49,23 +37,20 @@ class Application implements LoggerAwareInterface
         $this->event = $event;
     }
 
-    public function setEnv(array $env): void
-    {
-        $this->env = $env;
-    }
-
     public function setLogger(LoggerInterface $logger)
     {
         $this->logger = $logger;
     }
 
     /**
-     * @param TIClient $client
-     * @see https://github.com/jamesRUS52/tinkoff-invest
+     * Добавь обработчик в цепочку
+     * @todo: reply не очень удачное имя для обработчика
      */
-    public function setClient(TIClient $client): void
+    public function add(ReplyInterface ...$replies)
     {
-        $this->client = $client;
+        foreach ($replies as $reply) {
+            $this->replies[] = $reply;
+        }
     }
 
     /**
@@ -74,17 +59,7 @@ class Application implements LoggerAwareInterface
     public function run(): array
     {
         try {
-            $replies = [
-                new Ping(),
-                new ICanDo(),
-                new Introduction(),
-                new Repeat(),
-                new Stocks($this->client),
-                new Orders($this->client),
-                new MarketOrderBuyStock($this->client, $this->logger),
-                new MarketOrderSellStock($this->client, $this->logger),
-            ];
-            foreach ($replies as $reply) {
+            foreach ($this->replies as $reply) {
                 $response = $reply->handle($this->event);
                 if ($response) {
                     return $response;

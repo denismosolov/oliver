@@ -4,46 +4,66 @@ declare(strict_types=1);
 
 require 'vendor/autoload.php';
 
-use Oliver\Application;
-use Oliver\Logger;
-use jamesRUS52\TinkoffInvest\TIClient;
-use jamesRUS52\TinkoffInvest\TISiteEnum;
-use jamesRUS52\TinkoffInvest\TIException;
+use Oliver\{Application,Logger};
+use Oliver\Reply\{Stocks,Orders,MarketOrderBuyStock,MarketOrderSellStock,Ping,ICanDo,Introduction,Repeat};
+use jamesRUS52\TinkoffInvest\{TIClient,TISiteEnum,TIException};
+use Symfony\Component\DependencyInjection\{ContainerBuilder,Reference};
 
 function main($event, $context): array
 {
-    if (is_object($context) && method_exists($context, 'getRequestId')) {
-        // https://cloud.yandex.ru/docs/functions/lang/php/context
-        $cloudRequestId = $context->getRequestId();
-    } else {
-        $cloudRequestId = '';
-    }
-    $logger = new Logger($cloudRequestId);
+    // https://cloud.yandex.ru/docs/functions/lang/php/context
+    $cloudRequestId = $context->getRequestId(); // @todo: error handling
+    $token = $_ENV['TINKOFF_OPEN_API_EXCHANGE'] ?? ''; // @todo: $_SERVER
 
-    $token = $_ENV['TINKOFF_OPEN_API_EXCHANGE'] ?? '';
-    try {
-        // @todo: на самом деле это лучше запихнуть в Application
-        // чтобы была возможность покрыть тестами
-        $client = new TIClient($token, TISiteEnum::EXCHANGE);
-    } catch (TIException $ce) {
-        // запись в лог
-        $logger->debug(
-            'Исключительная ситуация',
-            ['exception' => $ce]
-        );
-        // завершение работы
-        return [
-            'response' => [
-                'text' => 'Извините, я не могу подключиться к бирже, попробуйте позже, завершаю работу.',
-                'end_session' => true,
-            ],
-            'version' => '1.0',
-        ];
-    }
+    $containerBuilder = new ContainerBuilder();
+    $containerBuilder->setParameter('yandex.cloud.request.id', $cloudRequestId);
+    $containerBuilder->setParameter('tinkoff.invest.token', $token);
+    $containerBuilder->setParameter('tinkoff.invest.site', TISiteEnum::EXCHANGE);
 
-    $app = new Application();
-    $app->setClient($client);
+    $containerBuilder
+        ->register(Logger::class, Logger::class)
+        ->addArgument('%yandex.cloud.request.id%')
+    ;
+    $containerBuilder
+        ->register(TIClient::class, TIClient::class)
+        ->addArgument('%tinkoff.invest.token%')
+        ->addArgument('%tinkoff.invest.site%')
+    ;
+    $containerBuilder
+        ->register(Application::class, Application::class)
+        ->addMethodCall('setLogger', [new Reference(Logger::class)])
+    ;
+
+    $containerBuilder
+        ->register(Stocks::class, Stocks::class)
+        ->addArgument(new Reference(TIClient::class))
+    ;
+    $containerBuilder
+        ->register(Orders::class, Orders::class)
+        ->addArgument(new Reference(TIClient::class))
+    ;
+    $containerBuilder
+        ->register(MarketOrderBuyStock::class, MarketOrderBuyStock::class)
+        ->addArgument(new Reference(TIClient::class))
+        ->addArgument(new Reference(Logger::class))
+    ;
+    $containerBuilder
+        ->register(MarketOrderSellStock::class, MarketOrderSellStock::class)
+        ->addArgument(new Reference(TIClient::class))
+        ->addArgument(new Reference(Logger::class))
+    ;
+
+    $app = $containerBuilder->get(Application::class);
+    $app->add(
+        new Ping(),
+        new ICanDo(),
+        new Introduction(),
+        new Repeat(),
+        $containerBuilder->get(Stocks::class),
+        $containerBuilder->get(Orders::class),
+        $containerBuilder->get(MarketOrderBuyStock::class),
+        $containerBuilder->get(MarketOrderSellStock::class),
+    );
     $app->setEvent($event);
-    $app->setLogger($logger);
     return $app->run();
 }
