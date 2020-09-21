@@ -2,26 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Oliver;
+namespace Oliver\Tests\Reply;
 
 use PHPUnit\Framework\TestCase;
 use Oliver\Reply\ICanDo;
+use Oliver\Tests\Extra;
 
 final class ICanDoTest extends TestCase
 {
-
-    /**
-     * @todo: refactor, copy-pasted
-     */
-    private function assertStructure(array $result): void
-    {
-        $this->assertArrayHasKey('version', $result);
-        $this->assertArrayHasKey('response', $result);
-        $this->assertArrayHasKey('text', $result['response']);
-        $this->assertArrayHasKey('session_state', $result);
-        $this->assertArrayHasKey('text', $result['session_state']);
-        $this->assertArrayHasKey('context', $result['session_state']);
-    }
+    use Extra;
 
     public function testNormalFlow(): void
     {
