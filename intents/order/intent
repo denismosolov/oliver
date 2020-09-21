@@ -1,0 +1,42 @@
+# описание интента order для операций с ценными бумагами
+# эта грамматика позволит распознать намерение пользователя
+# купить или продать ценные бумаги
+
+root:
+    [$Action $Measure? $What? $Price?]
+slots:
+    operation:
+        source: $Operation
+        type: OperationType
+    amount:
+        source: $Amount
+        type: YANDEX.NUMBER
+    unit:
+        source: $Unit
+        type: OperationUnit
+    figi:
+        source: $Figi
+        type: FIGI
+filler:
+    %lemma
+    пожалуйста | алиса | оливер
+
+$Action:
+    $Operation
+$Measure:
+    $Amount? $Unit?
+$What:
+    $Figi
+$Price:
+    $MarketPrice
+$Operation:
+    $OperationType
+$Amount:
+    $YANDEX.NUMBER
+$Unit:
+    $OperationUnit
+$Figi:
+    $FIGI
+$MarketPrice:
+    %lemma
+    по рынку | по рыночной цене
