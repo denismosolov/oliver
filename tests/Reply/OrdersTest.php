@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Oliver;
+namespace Oliver\Tests\Reply;
 
 use PHPUnit\Framework\TestCase;
 use jamesRUS52\TinkoffInvest\TIClient;

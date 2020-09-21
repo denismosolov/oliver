@@ -16,22 +16,23 @@ final class LoggerTest extends TestCase
         $logger->error('message');
     }
 
+    // @todo: что это вообще за ерунда?
     public function testCloudOutputException(): void
     {
         // phpcs:disable
         $expected = <<<OUT
 error id message
 error id ex
-error id #0 /home/denis/Documents/oliver/vendor/phpunit/phpunit/src/Framework/TestCase.php(1413): Oliver\LoggerTest->testCloudOutputException()
-#1 /home/denis/Documents/oliver/vendor/phpunit/phpunit/src/Framework/TestCase.php(1030): PHPUnit\Framework\TestCase->runTest()
-#2 /home/denis/Documents/oliver/vendor/phpunit/phpunit/src/Framework/TestResult.php(692): PHPUnit\Framework\TestCase->runBare()
-#3 /home/denis/Documents/oliver/vendor/phpunit/phpunit/src/Framework/TestCase.php(771): PHPUnit\Framework\TestResult->run()
-#4 /home/denis/Documents/oliver/vendor/phpunit/phpunit/src/Framework/TestSuite.php(638): PHPUnit\Framework\TestCase->run()
-#5 /home/denis/Documents/oliver/vendor/phpunit/phpunit/src/Framework/TestSuite.php(638): PHPUnit\Framework\TestSuite->run()
-#6 /home/denis/Documents/oliver/vendor/phpunit/phpunit/src/Framework/TestSuite.php(638): PHPUnit\Framework\TestSuite->run()
-#7 /home/denis/Documents/oliver/vendor/phpunit/phpunit/src/TextUI/TestRunner.php(651): PHPUnit\Framework\TestSuite->run()
-#8 /home/denis/Documents/oliver/vendor/phpunit/phpunit/src/TextUI/Command.php(108): PHPUnit\TextUI\TestRunner->run()
-#9 /home/denis/Documents/oliver/vendor/phpunit/phpunit/src/TextUI/Command.php(68): PHPUnit\TextUI\Command->run()
+error id #0 /home/denis/Documents/oliver/vendor/phpunit/phpunit/src/Framework/TestCase.php(1533): Oliver\LoggerTest->testCloudOutputException()
+#1 /home/denis/Documents/oliver/vendor/phpunit/phpunit/src/Framework/TestCase.php(1139): PHPUnit\Framework\TestCase->runTest()
+#2 /home/denis/Documents/oliver/vendor/phpunit/phpunit/src/Framework/TestResult.php(730): PHPUnit\Framework\TestCase->runBare()
+#3 /home/denis/Documents/oliver/vendor/phpunit/phpunit/src/Framework/TestCase.php(880): PHPUnit\Framework\TestResult->run()
+#4 /home/denis/Documents/oliver/vendor/phpunit/phpunit/src/Framework/TestSuite.php(665): PHPUnit\Framework\TestCase->run()
+#5 /home/denis/Documents/oliver/vendor/phpunit/phpunit/src/Framework/TestSuite.php(665): PHPUnit\Framework\TestSuite->run()
+#6 /home/denis/Documents/oliver/vendor/phpunit/phpunit/src/Framework/TestSuite.php(665): PHPUnit\Framework\TestSuite->run()
+#7 /home/denis/Documents/oliver/vendor/phpunit/phpunit/src/TextUI/TestRunner.php(671): PHPUnit\Framework\TestSuite->run()
+#8 /home/denis/Documents/oliver/vendor/phpunit/phpunit/src/TextUI/Command.php(148): PHPUnit\TextUI\TestRunner->run()
+#9 /home/denis/Documents/oliver/vendor/phpunit/phpunit/src/TextUI/Command.php(101): PHPUnit\TextUI\Command->run()
 #10 /home/denis/Documents/oliver/vendor/phpunit/phpunit/phpunit(61): PHPUnit\TextUI\Command::main()
 #11 {main}
 

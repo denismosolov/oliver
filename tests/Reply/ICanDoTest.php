@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Oliver;
+namespace Oliver\Tests\Reply;
 
 use PHPUnit\Framework\TestCase;
 use Oliver\Reply\ICanDo;
