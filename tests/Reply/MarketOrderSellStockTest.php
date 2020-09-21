@@ -11,21 +11,14 @@ use jamesRUS52\TinkoffInvest\TIOrder;
 use PHPUnit\Framework\TestCase;
 use Oliver\Reply\MarketOrderSellStock;
 use Oliver\Logger;
+use Oliver\Tests\Extra;
 
 final class MarketOrderSellStockTest extends TestCase
 {
+    use Extra;
+
     private const FIGI_NLMK = 'BBG004S681B4';
     private const FIGI_YANDEX = 'BBG006L8G4H1';
-
-    private function assertStructure(array $result): void
-    {
-        $this->assertArrayHasKey('version', $result);
-        $this->assertArrayHasKey('response', $result);
-        $this->assertArrayHasKey('text', $result['response']);
-        $this->assertArrayHasKey('session_state', $result);
-        $this->assertArrayHasKey('text', $result['session_state']);
-        $this->assertArrayHasKey('context', $result['session_state']);
-    }
 
     public function testCreateOrder(): void
     {
