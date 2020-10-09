@@ -21,10 +21,10 @@ final class OrderTest extends TestCase
 
     private function assertOrderContext(array $result): void
     {
-        $this->assertContains('order', $result['session_state']['context']);
+        $this->assertArrayHasKey('order', $result['session_state']['context']);
         $this->assertIsArray($result['session_state']['context']['order']);
-        $this->assertContains('operation', $result['session_state']['context']['order']);
-        $this->assertContains('type', $result['session_state']['context']['order']);
+        $this->assertArrayHasKey('operation', $result['session_state']['context']['order']);
+        $this->assertArrayHasKey('type', $result['session_state']['context']['order']);
         // @todo: add market
     }
 
@@ -155,8 +155,8 @@ final class OrderTest extends TestCase
         $this->assertStructure($result);
         $this->assertOrderContext($result);
 
-        $this->assertStringContainsStringIgnoringCase('покупка', $result['response']['text']);
-        $this->assertStringNotContainsStringIgnoringCase('продажа', $result['response']['text']);
+        $this->assertStringContainsStringIgnoringCase('покупку', $result['response']['text']);
+        $this->assertStringNotContainsStringIgnoringCase('продажу', $result['response']['text']);
         $this->assertStringContainsStringIgnoringCase('доллар сша', $result['response']['text']);
         $this->assertStringContainsStringIgnoringCase('количество лотов', $result['response']['text']);
         $this->assertStringContainsStringIgnoringCase('по рыночной цене', $result['response']['text']);
@@ -191,16 +191,15 @@ final class OrderTest extends TestCase
                 'session' => [
                     'text' => '',
                     'context' => [
-                        'order',
+                        'order' => [
+                            'operation' => 'buy',
+                            'figi' => self::FIGI_USDRUB,
+                            'type' => 'currency',
+                            'amount' => 1,
+                            'unit' => 'lot',
+                            'name' => 'Доллар США',
+                        ],
                     ],
-                    'order_details' => [
-                        'operation' => 'buy',
-                        'figi' => self::FIGI_USDRUB,
-                        'type' => 'currency',
-                        'amount' => 1,
-                        'unit' => 'lot',
-                        'name' => 'Доллар США',
-                    ]
                 ],
                 'user' => []
             ],
@@ -311,8 +310,8 @@ final class OrderTest extends TestCase
         $result = $newOrder->handle($event);
         $this->assertStructure($result);
         $this->assertOrderContext($result);
-        $this->assertStringContainsStringIgnoringCase('продажа', $result['response']['text']);
-        $this->assertStringNotContainsStringIgnoringCase('покупка', $result['response']['text']);
+        $this->assertStringContainsStringIgnoringCase('продажу', $result['response']['text']);
+        $this->assertStringNotContainsStringIgnoringCase('покупку', $result['response']['text']);
         $this->assertStringContainsStringIgnoringCase('доллар сша', $result['response']['text']);
         $this->assertStringContainsStringIgnoringCase('количество лотов', $result['response']['text']);
         $this->assertStringContainsStringIgnoringCase('по рыночной цене', $result['response']['text']);
@@ -347,16 +346,15 @@ final class OrderTest extends TestCase
                 'session' => [
                     'text' => '',
                     'context' => [
-                        'order',
+                        'order' => [
+                            'operation' => 'sell',
+                            'figi' => self::FIGI_USDRUB,
+                            'type' => 'currency',
+                            'amount' => 1,
+                            'unit' => 'lot',
+                            'name' => 'Доллар США',
+                        ],
                     ],
-                    'order_details' => [
-                        'operation' => 'sell',
-                        'figi' => self::FIGI_USDRUB,
-                        'type' => 'currency',
-                        'amount' => 1,
-                        'unit' => 'lot',
-                        'name' => 'Доллар США',
-                    ]
                 ],
                 'user' => []
             ],
