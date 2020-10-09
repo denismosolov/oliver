@@ -7,7 +7,7 @@ export $(shell sed 's/=.*//' .env)
 all: composer_install init_yc create_function create_dotenv
 
 test:
-	./vendor/bin/phpcs --standard=PSR12 src/ tests/
+	./vendor/bin/phpcs --standard=ruleset.xml
 	./vendor/bin/phpunit
 
 logs:
@@ -15,7 +15,7 @@ logs:
 	yc serverless function logs oliver
 
 fixpsr12:
-	./vendor/bin/phpcbf --standard=PSR12 src/ tests/ index.php
+	./vendor/bin/phpcbf --standard=ruleset.xml
 
 init_yc:
 	yc init

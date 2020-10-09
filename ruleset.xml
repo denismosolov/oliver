@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<ruleset name="Oliver Standard">
+    <file>./index.php</file>
+    <file>./src</file>
+    <file>./tests</file>
+    <rule ref="PSR12"/>
+    <rule ref="Generic.Files.LineLength">
+        <severity>4</severity>
+    </rule>
+</ruleset>
