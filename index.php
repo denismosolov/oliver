@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-require 'vendor/autoload.php';
-
 use Oliver\{Application,Logger};
 use Oliver\Reply\{Stocks,Orders,MarketOrderBuyStock,MarketOrderSellStock,Ping,ICanDo,Introduction,Repeat};
 use jamesRUS52\TinkoffInvest\{TIClient,TISiteEnum,TIException};
@@ -11,6 +9,8 @@ use Symfony\Component\DependencyInjection\{ContainerBuilder,Reference};
 
 function main($event, $context): array
 {
+    require 'vendor/autoload.php'; // follow PSR-1
+
     // https://cloud.yandex.ru/docs/functions/lang/php/context
     $cloudRequestId = $context->getRequestId(); // @todo: error handling
     $token = $_ENV['TINKOFF_OPEN_API_EXCHANGE'] ?? ''; // @todo: $_SERVER

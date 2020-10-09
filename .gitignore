@@ -2,3 +2,4 @@ vendor/
 .env
 launch.json
 oliver.zip
+.phpunit.result.cache
