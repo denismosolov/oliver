@@ -1,8 +1,10 @@
 
 SHELL := /bin/bash
 
-include .env
-export $(shell sed 's/=.*//' .env)
+ifneq (,$(wildcard ./.env))
+	include .env
+	export $(shell sed 's/=.*//' .env)
+endif
 
 all: composer_install init_yc create_function create_dotenv
 
@@ -27,7 +29,13 @@ create_function:
 		--description="Обработчик навыка Оливер"
 
 composer_install:
-	composer install
+ifeq (,$(wildcard ./composer.phar))
+	php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+	php -r "if (hash_file('sha384', 'composer-setup.php') === '795f976fe0ebd8b75f26a6dd68f78fd3453ce79f32ecb33e7fd087d39bfeb978342fb73ac986cd4f54edd0dc902601dc') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+	php composer-setup.php
+	php -r "unlink('composer-setup.php');"
+endif
+	php composer.phar install
 
 create_dotenv:
 	cp -i .env.example .env

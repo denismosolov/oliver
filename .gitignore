@@ -3,3 +3,5 @@ vendor/
 launch.json
 oliver.zip
 .phpunit.result.cache
+composer.phar
+.idea
