@@ -8,8 +8,6 @@
 apt update
 apt install php7.4 php7.4-curl make
 ```
-### Composer
-Инструкция https://getcomposer.org/doc/00-intro.md#installation-linux-unix-macos
 
 ### YC CLI
 Инструкция https://cloud.yandex.ru/docs/cli/operations/install-cli
