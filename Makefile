@@ -6,11 +6,25 @@ ifneq (,$(wildcard ./.env))
 	export $(shell sed 's/=.*//' .env)
 endif
 
-all: composer_install init_yc create_function create_dotenv
+all: init_yc create_function create_dotenv
 
-test:
-	./vendor/bin/phpcs --standard=ruleset.xml
-	./vendor/bin/phpunit
+test: phpcs phpunit
+
+develop: composer_install
+
+phpcs:
+	docker pull php:7.4-cli
+	docker run --rm --interactive --tty \
+		--volume ${PWD}:/usr/src/oliver \
+		--workdir /usr/src/oliver \
+		php:7.4-cli ./vendor/bin/phpcs --standard=ruleset.xml
+
+phpunit:
+	docker pull php:7.4-cli
+	docker run --rm --interactive --tty \
+		--volume ${PWD}:/usr/src/oliver \
+		--workdir /usr/src/oliver \
+		php:7.4-cli ./vendor/bin/phpunit
 
 logs:
 	yc config profile activate oliver
@@ -29,13 +43,11 @@ create_function:
 		--description="Обработчик навыка Оливер"
 
 composer_install:
-ifeq (,$(wildcard ./composer.phar))
-	php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-	php -r "if (hash_file('sha384', 'composer-setup.php') === '795f976fe0ebd8b75f26a6dd68f78fd3453ce79f32ecb33e7fd087d39bfeb978342fb73ac986cd4f54edd0dc902601dc') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
-	php composer-setup.php
-	php -r "unlink('composer-setup.php');"
-endif
-	php composer.phar install
+	docker pull composer:1.10.13
+	docker run --rm --interactive --tty \
+	  --user $$(id -u):$$(id -g) \
+	  --volume ${PWD}:/app \
+	  composer:1.10.13 install
 
 create_dotenv:
 	cp -i .env.example .env
