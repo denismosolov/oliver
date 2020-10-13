@@ -11,6 +11,9 @@ use jamesRUS52\TinkoffInvest\TIException;
 use jamesRUS52\TinkoffInvest\TIOrder;
 use Psr\Log\LoggerInterface;
 
+/**
+ * @deprecated use Reply\Order instead
+ */
 // @todo: refactor,create abstract class with common methods
 // MarketOrderSellStock and MarketOrderBuyStock
 class MarketOrderSellStock implements ReplyInterface

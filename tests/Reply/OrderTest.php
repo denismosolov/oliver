@@ -103,7 +103,7 @@ final class OrderTest extends TestCase
                                         'start' => 3,
                                         'end' => 4,
                                     ],
-                                    'value' => 'lot',
+                                    'value' => Order::UNIT_LOT,
                                 ],
                                 'figi' => [
                                     'type' => 'FIGI',
@@ -189,14 +189,15 @@ final class OrderTest extends TestCase
             ],
             'state' => [
                 'session' => [
-                    'text' => '',
+                    'text' => '', // @todo: add
                     'context' => [
                         'order' => [
                             'operation' => 'buy',
                             'figi' => self::FIGI_USDRUB,
-                            'type' => 'currency',
+                            'type' => 'Currency',
                             'amount' => 1,
-                            'unit' => 'lot',
+                            'unit' => Order::UNIT_LOT,
+                            'ticker' => 'USD000UTSTOM', // @todo: const
                             'name' => 'Доллар США',
                         ],
                     ],
@@ -259,7 +260,7 @@ final class OrderTest extends TestCase
                                         'start' => 3,
                                         'end' => 4,
                                     ],
-                                    'value' => 'lot',
+                                    'value' => Order::UNIT_LOT,
                                 ],
                                 'figi' => [
                                     'type' => 'FIGI',
@@ -275,7 +276,7 @@ final class OrderTest extends TestCase
                                         'start' => 0,
                                         'end' => 1,
                                     ],
-                                    'value' => 'sell',
+                                    'value' => Order::OPERATION_SELL,
                                 ],
                             ]
                         ]
@@ -344,14 +345,15 @@ final class OrderTest extends TestCase
             ],
             'state' => [
                 'session' => [
-                    'text' => '',
+                    'text' => '', // @todo: add
                     'context' => [
                         'order' => [
-                            'operation' => 'sell',
+                            'operation' => Order::OPERATION_SELL,
                             'figi' => self::FIGI_USDRUB,
-                            'type' => 'currency',
+                            'type' => 'Currency',
                             'amount' => 1,
-                            'unit' => 'lot',
+                            'unit' => Order::UNIT_LOT,
+                            'ticker' => 'USD000UTSTOM', // @todo: const
                             'name' => 'Доллар США',
                         ],
                     ],
@@ -370,7 +372,7 @@ final class OrderTest extends TestCase
                 ->with(
                     $this->equalTo(self::FIGI_USDRUB),
                     $this->equalTo(1),
-                    $this->equalTo(TIOperationEnum::BUY),
+                    $this->equalTo(TIOperationEnum::SELL),
                     $this->equalTo(null) // I wonder if it works?
                 )->willReturn($order);
         $logger = new Logger('');

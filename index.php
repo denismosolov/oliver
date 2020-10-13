@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use Oliver\{Application,Logger};
-use Oliver\Reply\{Stocks,Orders,MarketOrderBuyStock,MarketOrderSellStock,Ping,ICanDo,Introduction,Repeat};
+use Oliver\Reply\{Stocks,Orders,MarketOrderBuyStock,MarketOrderSellStock,Ping,ICanDo,Introduction,Repeat,Order};
 use jamesRUS52\TinkoffInvest\{TIClient,TISiteEnum,TIException};
 use Symfony\Component\DependencyInjection\{ContainerBuilder,Reference};
 
@@ -43,6 +43,11 @@ function main($event, $context): array
         ->addArgument(new Reference(TIClient::class))
     ;
     $containerBuilder
+        ->register(Order::class, Order::class)
+        ->addArgument(new Reference(TIClient::class))
+        ->addArgument(new Reference(Logger::class))
+    ;
+    $containerBuilder
         ->register(MarketOrderBuyStock::class, MarketOrderBuyStock::class)
         ->addArgument(new Reference(TIClient::class))
         ->addArgument(new Reference(Logger::class))
@@ -61,6 +66,7 @@ function main($event, $context): array
         new Repeat(),
         $containerBuilder->get(Stocks::class),
         $containerBuilder->get(Orders::class),
+        $containerBuilder->get(Order::class),
         $containerBuilder->get(MarketOrderBuyStock::class),
         $containerBuilder->get(MarketOrderSellStock::class),
     );
