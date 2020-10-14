@@ -10,6 +10,14 @@ use jamesRUS52\TinkoffInvest\TIOperationEnum;
 use jamesRUS52\TinkoffInvest\TIException;
 use jamesRUS52\TinkoffInvest\TIOrder;
 use Psr\Log\LoggerInterface;
+use Oliver\Reply\Message\Amount;
+use Oliver\Reply\Message\Declined;
+use Oliver\Reply\Message\Confirm;
+use Oliver\Reply\Message\Instrument;
+use Oliver\Reply\Message\Order as ConfirmOrder;
+use Oliver\Reply\Message\Price;
+use Oliver\Reply\Message\Ticker;
+use Oliver\Reply\Message\WannaBuy;
 
 class Order implements ReplyInterface
 {
@@ -35,14 +43,16 @@ class Order implements ReplyInterface
     {
         $intents = $event['request']['nlu']['intents'] ?? [];
         $context = $event['state']['session']['context'] ?? [];
-        if (isset($intents['order'])) {
+        if (
+            isset($intents['order']) ||
+            isset($context['order']) && ! isset($intents['YANDEX.REJECT']) && ! isset($intents['YANDEX.CONFIRM'])
+        ) {
             // @todo: choose a better design pattern
             // ex. Reply/Order/(Buy|Sell)(Confirm...|Exec|Cancel) + validation
             // buy usd
 
             // @todo: class, read from intents or read from context
             $slots = $intents['order']['slots']; // shortcut
-
             $operation = $slots['operation']['value'] ?? '';
             $unit = $slots['unit']['value'] ?? '';
             $figi = $slots['figi']['value'] ?? '';
@@ -51,19 +61,32 @@ class Order implements ReplyInterface
             if ($buyLot) {
                 // @todo: validation
                 $instrument = $this->client->getInstrumentByFigi($figi);
-                $text = sprintf('заявка на покупку %s по рыночной цене,', $instrument->getName());
-                $text .= sprintf('тикер: %s,', $instrument->getTicker());
-                if ($unit === 'share') {
-                        $text .= sprintf('количество акций: %d,', $amount);
-                } elseif ($unit === 'lot') {
-                    $text .= sprintf('количество лотов: %d,', $amount);
-                } else {
-                    throw new \Exception('Неизвестная единица измерения: ' . $unit);
-                }
-                $text .= 'для подтверждения скажите подтверждаю, для отмены скажите нет.';
+                $message = new Confirm(
+                    new Amount(
+                        new Ticker(
+                            new Price(
+                                new Instrument(
+                                    new ConfirmOrder($operation),
+                                    $instrument->getName()
+                                ),
+                                $instrument->getName()
+                            ),
+                            $instrument->getTicker()
+                        ),
+                        $amount,
+                        $unit
+                    )
+                );
+                // $orderMessage = new ConfirmOrder($operation);
+                // $instrumentMessage = new Instrument($orderMessage, $instrument->getName());
+                // $priceMessage = new Price($instrumentMessage);
+                // $tickerMessage = new Ticker($priceMessage, $instrument->getTicker());
+                // $amountMessage = new Amount($tickerMessage, $amount, $unit);
+                // $message = new Confirm($amountMessage);
                 return [
                     'session_state' => [
-                        'text' => $text,
+                        'text' => $message->text(),
+                        'tts' => $message->tts(),
                         'context' => [
                             'order' => [
                                 'operation' => $operation,
@@ -77,14 +100,16 @@ class Order implements ReplyInterface
                         ],
                     ],
                     'response' => [
-                        'text' => $text,
-                        'tts' => $text,
+                        'text' => $message->text(),
+                        'tts' => $message->tts(),
                         'end_session' => false,
                     ],
                     'version' => '1.0',
                 ];
+            } else {
+                // @todo: sell
             }
-        } else if (isset($intents['YANDEX.CONFIRM']) && isset($context['order'])) {
+        } elseif (isset($intents['YANDEX.CONFIRM']) && isset($context['order'])) {
             $operation = $context['order']['operation'] ?? '';
             $unit = $context['order']['unit'] ?? '';
             $figi = $context['order']['figi'] ?? '';
@@ -116,7 +141,29 @@ class Order implements ReplyInterface
                     ],
                     'version' => '1.0',
                 ];
+            } else {
+                // invalid data
+                return [];
             }
+        } elseif (isset($intents['YANDEX.REJECT']) && isset($context['order'])) {
+            $message = new WannaBuy(
+                new Declined(),
+                $context['order']['name']
+            );
+            return [
+                'session_state' => [
+                    'text' => $message->text(),
+                    'tts' => $message->tts(),
+                    'context' => [],
+                    'order_details' => [],
+                ],
+                'response' => [
+                    'text' => $message->text(),
+                    'tts' => $message->tts(),
+                    'end_session' => false,
+                ],
+                'version' => '1.0',
+            ];
         } else {
             return [];
         }
