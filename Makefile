@@ -10,17 +10,19 @@ all: init_yc create_function create_dotenv
 
 test: phpcs phpunit
 
-develop: composer_install
+develop: pull_images composer_install
+
+pull_images:
+	docker pull php:7.4-cli
+	docker pull composer:1.10.13
 
 phpcs:
-	docker pull php:7.4-cli
 	docker run --rm --interactive --tty \
 		--volume ${PWD}:/usr/src/oliver \
 		--workdir /usr/src/oliver \
 		php:7.4-cli ./vendor/bin/phpcs --standard=ruleset.xml
 
 phpunit:
-	docker pull php:7.4-cli
 	docker run --rm --interactive --tty \
 		--volume ${PWD}:/usr/src/oliver \
 		--workdir /usr/src/oliver \
@@ -43,7 +45,6 @@ create_function:
 		--description="Обработчик навыка Оливер"
 
 composer_install:
-	docker pull composer:1.10.13
 	docker run --rm --interactive --tty \
 	  --user $$(id -u):$$(id -g) \
 	  --volume ${PWD}:/app \
