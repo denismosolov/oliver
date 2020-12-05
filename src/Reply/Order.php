@@ -6,6 +6,7 @@ namespace Oliver\Reply;
 
 use jamesRUS52\TinkoffInvest\TIClient;
 use jamesRUS52\TinkoffInvest\TIInstrument;
+use jamesRUS52\TinkoffInvest\TIOperation;
 use jamesRUS52\TinkoffInvest\TIOperationEnum;
 use jamesRUS52\TinkoffInvest\TIException;
 use jamesRUS52\TinkoffInvest\TIOrder;
@@ -56,9 +57,11 @@ class Order implements ReplyInterface
             $operation = $slots['operation']['value'] ?? '';
             $unit = $slots['unit']['value'] ?? '';
             $figi = $slots['figi']['value'] ?? '';
-            $amount = $slots['amount']['value'] ?? 0;
+            $amount = $slots['amount']['value'] ?? 0; // ????? 0 is okay?
             $buyLot = $operation === self::OPERATION_BUY && $unit === self::UNIT_LOT && $figi;
-            if ($buyLot) {
+            $sellLot = $operation === self::OPERATION_SELL && $unit === self::UNIT_LOT && $figi;
+            // what if buy a share?
+            if ($buyLot || $sellLot) {
                 // @todo: validation
                 $instrument = $this->client->getInstrumentByFigi($figi);
                 $message = new Confirm(
@@ -107,7 +110,8 @@ class Order implements ReplyInterface
                     'version' => '1.0',
                 ];
             } else {
-                // @todo: sell
+                // @todo: share buy/sell?
+                // @todo: error
             }
         } elseif (isset($intents['YANDEX.CONFIRM']) && isset($context['order'])) {
             $operation = $context['order']['operation'] ?? '';
@@ -116,12 +120,18 @@ class Order implements ReplyInterface
             $amount = $context['order']['amount'] ?? 0;
             // @todo: validation
             $buyLot = $operation === self::OPERATION_BUY && $unit === self::UNIT_LOT && $figi;
-            if ($buyLot) {
+            $sellLot = $operation === self::OPERATION_SELL && $unit === self::UNIT_LOT && $figi;
+            if ($buyLot || $sellLot) {
                 try {
+                    // @todo: refactor
+                    $tiOperationMapper = [
+                        self::OPERATION_BUY => TIOperationEnum::BUY,
+                        self::OPERATION_SELL => TIOperationEnum::SELL
+                    ];
                     $order = $this->client->sendOrder(
                         $figi,
                         $amount,
-                        TIOperationEnum::BUY
+                        $tiOperationMapper[$operation] // @todo: refactor
                     );
                     $text = $this->checkStatus($order); // @todo: refactor, move to a separate class
                 } catch (TIException $te) {
