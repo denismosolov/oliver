@@ -15,6 +15,8 @@ entity OperationUnit:
             мотор
             вот
             лофт
+            лоза
+            lot
         share:
             %lemma
             акция
@@ -68,6 +70,27 @@ entity OperationType:
 # чтобы различать тикеры
 entity FIGI:
     values:
+        # валюты
+        BBG0013HGFT4:
+            %exact
+            USD000UTSTOM
+            USDRUB
+            USD
+            %lemma
+            американская валюта
+            американский доллар
+            доллар сша?
+            бакс
+        BBG0013HJJ31:
+            %exact
+            EUR_RUB__TOM
+            EURRUB
+            EUR
+            %lemma
+            европейская валюта
+            евровалюта
+            евро
+        # акции
         BBG005DXJS36:
             %exact
             TCS

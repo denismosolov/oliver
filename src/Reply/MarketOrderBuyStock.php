@@ -11,6 +11,9 @@ use jamesRUS52\TinkoffInvest\TIException;
 use jamesRUS52\TinkoffInvest\TIOrder;
 use Psr\Log\LoggerInterface;
 
+/**
+ * @deprecated use Reply\Order instead
+ */
 class MarketOrderBuyStock implements ReplyInterface
 {
    /**
